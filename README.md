@@ -13,8 +13,21 @@ graph LR
     end
 ```
 
-## Goals
+At this point, the Javalin backend isn't really necessary; it only does some small data-processing and retrieving open access information from Unpaywall, another open-access data source. It *will* create graph objects for certain visualizations. However, I do see this becoming useful later on, when I would want to incorporate other data sources that may provide information on articles that haven't been logged in the OpenAlex database (DOI content negotiation).
+
+## Goals & Plans
 - [ ] Get the project functional
-  - [ ] Get the Javalin backend working
-  - [ ] Get the Vue frontend working
+  - [x] Get the Javalin backend working (completed, may add more functionality)
+  - [x] Get the Vue frontend working (only template project for now)
   - [ ] Create the Docker Compose file for it to work
+- [ ] Create basic UI for Vue frontend
+  - [ ] Add basic article information
+  - [ ] Implement network graph
+  - [ ] Add related sources (get information from Wikipedia)
+- [ ] Make everything look fancy!
+- [ ] Future Ideas:
+  - [ ] Add author information from ORCID (when provided)
+  - [ ] Add further publishing information?
+  - [ ] Add more data source (DOI content negotiation, Semantic Scholar)
+    - Note: There's not really any need to add data sources such as PubMed and ARXIV, since OpenAlex does catalog these sources. It *would* be nice, however.
+  - [ ] Could add a general search for concepts, text, etc.
