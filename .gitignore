@@ -1,0 +1,42 @@
+# Gradle
+# ------
+backend/.gradle
+backend/build
+backend/*/build
+backend/*/*/build
+backend/*/*/*/build
+backend/*/*/*/*/build
+backend/*/docs/src/samples/**/build
+backend/*/docs/src/snippets/**/build
+backend/*/internal-android-performance-testing/build-android-libs
+backend/test-splits/
+backend/gradle/verification-keyring.gpg
+
+# IDEA
+# ----
+backend/!/.idea
+backend/.idea/*
+backend/!/.idea/codeStyles
+backend/!/.idea/inspectionProfiles
+backend/!/.idea/icon.png
+backend/!/.idea/icon_dark.png
+backend/*/**/.idea
+backend/*/**/.shelf
+backend/.shelf
+backend/*.iml
+backend/*/*.iml
+backend/*/*/*.iml
+backend/*/*/*/*.iml
+backend/*/*/*/*/*.iml
+backend/out
+backend/*/out
+backend/*/*/out
+backend/*/*/*/out
+backend/*/*/*/*/out
+backend/.teamcity/target
+backend/gradle.ipr
+backend/gradle.iws
+
+# Vim
+# ---
+*.sw[nop]
