@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.javalin.http.Context;
 import models.Edge;
 import models.Graph;
 import models.Vertex;
@@ -17,72 +18,37 @@ import java.util.List;
 import java.util.UUID;
 
 public class CitationMapController {
-    // create a new method that retrieves the data from the OpenAlex API
-    // and returns it as an HttpResponse
-    public static Vertex getIDObject(String id) throws URISyntaxException, IOException, InterruptedException {
-        HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://api.openalex.org/works" + id))
-                .GET()
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    public static void retrieveGraph(Context ctx) throws URISyntaxException, IOException, InterruptedException {
+        String id = ctx.pathParam("id");
+        HttpResponse<String> a = DOIController.getOpenAlexObject(id);
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response.body());
-        return new Vertex(jsonNode.get("id").asText(), jsonNode.get("title").asText(), jsonNode.get("doi").asText());
-    }
-
-    // create a new method that creates a graph from the cited articles from the object returned by the OpenAlex API
-    public static Graph createGraph(String doi) throws URISyntaxException, IOException, InterruptedException {
-        // get the object from the OpenAlex API
-        HttpResponse<String> idObject = DOIController.getOpenAlexObject(doi);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode json = objectMapper.readTree(idObject.body());
-
-        // create a new vertex for the root
-        String root = json.get("id").asText();
+        JsonNode json = objectMapper.readTree(a.body());
+        String root = json.get("id").asText().replace("https://openalex.org/", "");
         String rootTitle = json.get("title").asText();
         String rootDoi = json.get("doi").asText();
         Vertex rootVertex = new Vertex(root, rootTitle, rootDoi);
-
-        // create a new graph
+        // get the cited articles from the object, and convert them to Stream<Vertex>
         Graph graph = new Graph(rootVertex);
-
-        // get the cited articles from the object
         JsonNode citedArticles = json.get("referenced_works");
-
-        // convert citedArticles to Stream<Vertex>
-        // then for each Vertex in the Stream, create an Edge and add it to the graph; add the Vertex to the graph
-        objectMapper
-                .convertValue(citedArticles, new TypeReference<List<String>>() {
-                })
-                .stream()
-                .map(s -> s.replace("https://openalex.org/", ""))
-                .map(s -> {
-                    try {
-                        return getIDObject(s);
-                    } catch (URISyntaxException | IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).forEach(v -> {
-                    graph.addVertex(v);
-                    graph.addEdge(new Edge("edge " + UUID.randomUUID(), root, v.getId()));
-                });
-
-        // retrieve JSON from this url (https://api.openalex.org/works?filter=cites:W2015361846) and convert it to a JsonNode
-//        HttpResponse<String> citedArticlesObject = DOIController.getOpenAlexObject("works?filter=cites:" + root);
-//        JsonNode citedByArticles = objectMapper.readTree(citedArticlesObject.body()).get("results");
-//
-//        citedByArticles.iterator().forEachRemaining(
-//                node -> {
-//                    String openAlexID = node.get("id").asText();
-//                    String title = node.get("title").asText();
-//                    String articleDOID = node.get("doi").asText();
-//                    graph.addVertex(new Vertex(openAlexID, title, articleDOID));
-//                    graph.addEdge(new Edge("edge " + UUID.randomUUID(), openAlexID, root));
-//                }
-//        );
-
-        return graph;
+        HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
+        objectMapper.convertValue(citedArticles, new TypeReference<List<String>>() {
+        }).stream().map(s -> s.replace("https://openalex.org/", "")).map(s -> {
+            try {
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(new URI("https://api.openalex.org/works/" + s))
+                        .GET()
+                        .build();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println(response.uri());
+                JsonNode jsonNode = objectMapper.readTree(response.body());
+                return new Vertex(s, jsonNode.get("title").asText(), jsonNode.get("doi").asText());
+            } catch (URISyntaxException | IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).forEach(v -> {
+            graph.addVertex(v);
+            graph.addEdge(new Edge("edge-" + UUID.randomUUID(), root, v.getId()));
+        });
+        ctx.json(graph);
     }
-
 }
