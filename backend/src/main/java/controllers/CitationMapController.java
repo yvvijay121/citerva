@@ -22,7 +22,7 @@ public class CitationMapController {
     public static Vertex getIDObject(String id) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://api.openalex.org/" + id))
+                .uri(new URI("https://api.openalex.org/works" + id))
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -32,7 +32,7 @@ public class CitationMapController {
     }
 
     // create a new method that creates a graph from the cited articles from the object returned by the OpenAlex API
-    public static String createGraph(String doi) throws URISyntaxException, IOException, InterruptedException {
+    public static Graph createGraph(String doi) throws URISyntaxException, IOException, InterruptedException {
         // get the object from the OpenAlex API
         HttpResponse<String> idObject = DOIController.getOpenAlexObject(doi);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -65,7 +65,7 @@ public class CitationMapController {
                     }
                 }).forEach(v -> {
                     graph.addVertex(v);
-                    graph.addEdge(new Edge("edge " + UUID.randomUUID(), root, v.id()));
+                    graph.addEdge(new Edge("edge " + UUID.randomUUID(), root, v.getId()));
                 });
 
         // retrieve JSON from this url (https://api.openalex.org/works?filter=cites:W2015361846) and convert it to a JsonNode
@@ -82,7 +82,7 @@ public class CitationMapController {
 //                }
 //        );
 
-        return graph.toJson().toString();
+        return graph;
     }
 
 }

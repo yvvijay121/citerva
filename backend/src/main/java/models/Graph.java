@@ -17,6 +17,30 @@ public class Graph {
         this.vertices.add(root);
     }
 
+    public Vertex getRoot() {
+        return root;
+    }
+
+    public void setRoot(Vertex root) {
+        this.root = root;
+    }
+
+    public Set<Edge> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(Set<Edge> edges) {
+        this.edges = edges;
+    }
+
+    public Set<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(Set<Vertex> vertices) {
+        this.vertices = vertices;
+    }
+
     public void addVertex(Vertex vertex) {
         vertices.add(vertex);
     }
