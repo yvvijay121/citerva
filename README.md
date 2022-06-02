@@ -27,6 +27,7 @@ At this point, the Javalin backend isn't really necessary; it only does some sma
 - [ ] Make everything look fancy!
 - [ ] Future Ideas:
   - [ ] Add author information from ORCID (when provided)
+      - Can use [ORCID content negotiation](https://github.com/ORCID/ORCID-Source/blob/master/CONTENT_NEGOTIATION.md)
   - [ ] Add further publishing information?
   - [ ] Add more data source (DOI content negotiation, Semantic Scholar)
     - Note: There's not really any need to add data sources such as PubMed and ARXIV, since OpenAlex does catalog these sources. It *would* be nice, however.
