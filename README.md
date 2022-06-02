@@ -1,6 +1,6 @@
-# Citature
+# Endnoted
 
-Hello! Citature, which hasn't been created yet, will be a open-access, open-source bibliometrics application to search up and analyze research articles and its related information, such as authors, cited articles, related concepts, and more! This project is based off of the [OpenAlex project](https://openalex.org/), an open and comprehensive catalog of research papers.
+Hello! Endnoted, which hasn't been created yet, will be a open-access, open-source bibliometrics application to search up and analyze research articles and its related information, such as authors, cited articles, related concepts, and more! This project is based off of the [OpenAlex project](https://openalex.org/), an open and comprehensive catalog of research papers.
 
 ## Structure
 
