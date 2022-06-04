@@ -8,7 +8,7 @@
   >
     <div class="column is-narrow">
       <div class="box has-text-centered">
-        <h3 class="title is-3 m-5">CITATURE</h3>
+        <h3 class="title is-3 m-5">eNDNOTED</h3>
         <div class="field">
           <div class="control">
             <input
