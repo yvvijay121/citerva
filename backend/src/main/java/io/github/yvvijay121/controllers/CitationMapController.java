@@ -1,12 +1,12 @@
-package controllers;
+package io.github.yvvijay121.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
-import models.Edge;
-import models.Graph;
-import models.Vertex;
+import io.github.yvvijay121.models.Edge;
+import io.github.yvvijay121.models.Graph;
+import io.github.yvvijay121.models.Vertex;
 
 import java.io.IOException;
 import java.net.URI;

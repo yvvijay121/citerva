@@ -1,14 +1,13 @@
-import controllers.CitationMapController;
-import controllers.DOIController;
+package io.github.yvvijay121;
+
+import io.github.yvvijay121.controllers.CitationMapController;
+import io.github.yvvijay121.controllers.DOIController;
 import io.javalin.Javalin;
-import io.javalin.http.BadRequestResponse;
 
 public class Main {
     public static void main(String[] args) {
         Javalin app = Javalin.create().start(8000);
-        app.get("/", ctx -> {
-            throw new BadRequestResponse();
-        });
+        app.get("/", ctx -> ctx.json("please don't use this endpoint"));
         app.get("/doi/<id>", DOIController::retrieve);
         app.get("/graph/<id>", CitationMapController::retrieveGraph);
     }

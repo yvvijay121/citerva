@@ -1,4 +1,4 @@
-package models;
+package io.github.yvvijay121.models;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
