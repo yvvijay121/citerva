@@ -32,3 +32,12 @@ At this point, the Javalin backend isn't really necessary; it only does some sma
   - [ ] Add more data source (DOI content negotiation, Semantic Scholar)
     - Note: There's not really any need to add data sources such as PubMed and ARXIV, since OpenAlex does catalog these sources. It *would* be nice, however.
   - [ ] Could add a general search for concepts, text, etc.
+
+## Useful Links for later
+- https://github.com/ORCID/ORCID-Source/blob/master/CONTENT_NEGOTIATION.md
+- https://github.com/citation-js/citation-js
+- https://github.com/citation-js/replacer#starting.example
+- https://github.com/Juris-M/citeproc-js
+- https://www.semanticscholar.org/product/api
+- https://api.semanticscholar.org/api-docs/graph#tag/Paper-Data
+- https://github.com/allenai/s2orc-doc2json
