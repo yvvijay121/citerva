@@ -7,9 +7,11 @@ Hello! Endnoted, which hasn't been created yet, will be a open-access, open-sour
 When completed, the project will consist of two parts:
 ```mermaid
 graph LR
-    A[(OpenAlex)] -->|OpenAlex API| B
+    A[(OpenAlex)] --> |OpenAlex API| D
+    B[(Unpaywall)] --> |Unpaywall API| D
+    C[DOI Content Negotiation] --> D
     subgraph Docker Compose
-        B(Javalin Backend) <--> C(Vue frontend)
+        D(Javalin Backend) <--> E(Vue frontend)
     end
 ```
 
