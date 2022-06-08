@@ -17,6 +17,8 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.UUID;
 
+import static io.github.yvvijay121.Main.EMAIL;
+
 public class CitationMapController {
     public static void retrieveGraph(Context ctx) throws URISyntaxException, IOException, InterruptedException {
         String id = ctx.pathParam("id");
@@ -36,10 +38,10 @@ public class CitationMapController {
             try {
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(new URI("https://api.openalex.org/works/" + s))
+                        .header("User-Agent", "mailto:" + EMAIL)
                         .GET()
                         .build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println(response.uri());
                 JsonNode jsonNode = objectMapper.readTree(response.body());
                 return new Vertex(s, jsonNode.get("title").asText(), jsonNode.get("doi").asText());
             } catch (URISyntaxException | IOException | InterruptedException e) {

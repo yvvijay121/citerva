@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static io.github.yvvijay121.Main.EMAIL;
+
 public class DOIController {
-    public static String EMAIL = "yvvijay121@gmail.com";
 
     // create a new method that retrieves the data from the OpenAlex API
     // and returns it as an HttpResponse
@@ -26,6 +27,7 @@ public class DOIController {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("https://api.openalex.org/works/doi:" + doi))
+                .header("User-Agent", "mailto:" + EMAIL)
                 .GET()
                 .build();
         return client.send(request, BodyHandlers.ofString());

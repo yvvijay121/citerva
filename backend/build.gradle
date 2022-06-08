@@ -1,5 +1,18 @@
 plugins {
-    id 'java'
+    id "application"
+    id 'com.bmuschko.docker-java-application' version '7.4.0'
+}
+
+apply plugin : "java"
+sourceCompatibility = 14
+
+
+ext {
+    javaMainClass = "io.github.yvvijay121.Main"
+}
+
+application {
+    mainClassName = javaMainClass
 }
 
 group 'io.github.yvvijay121'
@@ -13,9 +26,15 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation 'io.javalin:javalin-bundle:4.6.0'
-    implementation 'org.jsoup:jsoup:1.15.1'
 }
 
 test {
     useJUnitPlatform()
+}
+
+docker {
+    javaApplication {
+        maintainer = 'yvvijay121'
+        baseImage = 'openjdk:17-slim'
+    }
 }

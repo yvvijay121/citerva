@@ -5,9 +5,11 @@ import io.github.yvvijay121.controllers.DOIController;
 import io.javalin.Javalin;
 
 public class Main {
+    public static String EMAIL = "yvvijay121@gmail.com";
+
     public static void main(String[] args) {
-        Javalin app = Javalin.create().start(8000);
-        app.get("/", ctx -> ctx.json("please don't use this endpoint"));
+        Javalin app = Javalin.create().start(8080);
+        app.get("/", ctx -> ctx.status(400).result("Please do not use this endpoint directly."));
         app.get("/doi/<id>", DOIController::retrieve);
         app.get("/graph/<id>", CitationMapController::retrieveGraph);
     }
