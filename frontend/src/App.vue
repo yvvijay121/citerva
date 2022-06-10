@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-transparent is-white px-4">
+  <nav class="navbar is-transparent is-white p-3">
     <div class="navbar-brand">
       <router-link to="/" class="navbar-item"
         ><img id="brandimage" :src="require('./assets/image.svg')" /></router-link>
