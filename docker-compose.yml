@@ -17,14 +17,14 @@ services:
       context: ./frontend
     depends_on:
       - backend
-    ports:
-      - 8000:80
+    expose:
+      - 8000
     restart: on-failure
   backend:
     image: backend
     container_name: backend
     build:
       context: ./backend/build/docker/
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     restart: on-failure
