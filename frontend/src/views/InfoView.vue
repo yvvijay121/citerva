@@ -16,14 +16,6 @@ onMounted(() => {
 </script>
 <template>
   <div class="container">
-    <h1 class="title">Hello!</h1>
-    <br>
-    <h3 class="subtitle">DOI: {{ articleObject['id'] }}</h3>
-  </div>
-</template>
-<!--
-<template>
-  <div class="container">
     <div class="columns">
       <div class="column is-8">
         <h1 class="title is-2">{{ articleObject.title }}</h1>
@@ -45,8 +37,8 @@ onMounted(() => {
         </div>
         <div class="box">
           <h3 class="title is-3">Abstract</h3>
-          <div id="ajax-abstract">
-            <progress class="progress is-info"></progress>
+          <div>
+            <p>{{ articleObject.abstract }}</p>
           </div>
         </div>
       </div>
@@ -89,4 +81,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
--->
