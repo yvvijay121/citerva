@@ -18,7 +18,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "8000:80"
+      - 8000:80
     restart: on-failure
   backend:
     image: backend
