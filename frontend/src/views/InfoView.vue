@@ -1,20 +1,35 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { onMounted, ref, reactive, watch } from 'vue'
+import { onBeforeMount, ref, reactive, watch } from 'vue'
 
 let route = useRoute()
 const articleObject: any = ref({})
 
-onMounted(() => {
+onBeforeMount(() => {
   if (route.params.doi) {
     let doi = <string[]> route.params.doi
-    fetch('https://api.openalex.org/works/doi:' + doi.join('/'))
+    fetch('http://localhost/api/doi/' + doi.join('/'))
     .then((res) => res.json())
     .then((json) => (articleObject.value = json));
   }
 })
 </script>
+<style lang="scss" scoped>
+.modal-background-lighter{
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+</style>
 <template>
+  <!-- <div class="modal is-active">
+    <div class="modal-background modal-background-lighter"></div>
+    <div class="modal-content">
+    
+    </div>
+  </div> -->
   <div class="container">
     <div class="columns">
       <div class="column is-8">
@@ -45,7 +60,7 @@ onMounted(() => {
       <div class="column is-4">
         <article class="box p-0 message is-success">
           <div class="message-header">
-            <p>Open Access Status: {{ articleObject.open_access }}</p>
+            <p class="capitalize">Open Access Status: {{ articleObject.unpaywall.oa_status }}</p>
           </div>
           <div class="message-body">
             <div class="content">
