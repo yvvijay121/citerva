@@ -3,10 +3,10 @@
     class="
       hero
       columns
-      is-mobile is-vcentered is-centered is-fullheight-with-navbar
+      is-mobile is-vcentered is-centered is-fullheight
     "
   >
-    <div class="column is-narrow">
+    <div class="hero-body column is-narrow">
       <div class="box has-text-centered">
         <h3 class="title is-3 m-5">eNDNOTED</h3>
         <div class="field">
