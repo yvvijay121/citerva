@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { onBeforeMount, ref, reactive, watch } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import CitationBox from '../components/CitationBox.vue'
 import JournalPublisherBox from '../components/JournalPublisherBox.vue'
 
@@ -35,10 +35,15 @@ const tabSwitch = (tab: string) => {
     <div class="columns">
       <div class="column is-three-quarters-desktop is-two-thirds-tablet">
         <div class="box">
-          <div class="columns is-v-centered is-desktop">
+          <div class="columns is-v-centered is-desktop mb-0">
             <div class="column">
-              <h1 class="title is-2">{{ articleObject.title }}</h1>
-              <small>{{articleObject.link}}</small>
+              <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
+              <nav class="breadcrumb has-dot-separator">
+                <ul>
+                  <li><a href="{{ articleObject.link }}">{{ articleObject.link }}</a></li>
+                  <li><a href="{{ articleObject.doi }}">{{ articleObject.doi }}</a></li>
+                </ul>
+              </nav>
             </div>
             <div class="column is-narrow has-text-right">
               <a href="#" class="button is-danger m-1">
@@ -78,7 +83,6 @@ const tabSwitch = (tab: string) => {
         </div>
         <div class="box">
           <h3 class="title is-3">Abstract</h3>
-          <p>{{articleObject.link}}</p>
           <div>
             <p class="has-text-serif is-size-5">{{ articleObject.abstract }}</p>
           </div>
