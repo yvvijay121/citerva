@@ -1,3 +1,9 @@
+<style scoped lang="scss">
+  #brandimage {
+    height: 1.75em;
+    margin: 2.5em;
+  }
+</style>
 <template>
   <div
     class="
@@ -8,7 +14,7 @@
   >
     <div class="hero-body column is-narrow">
       <div class="box has-text-centered">
-        <h3 class="title is-3 m-5">eNDNOTED</h3>
+        <img id="brandimage" :src="require('../assets/image.svg')" />
         <div class="field">
           <div class="control">
             <input

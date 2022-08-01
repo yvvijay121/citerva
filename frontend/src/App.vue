@@ -13,8 +13,7 @@
     display: none !important;
   }
   #brandimage {
-    height: 1em;
-    color: blue;
+    height: 1.25em;
   }
 </style>
 <template>
