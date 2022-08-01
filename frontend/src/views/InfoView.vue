@@ -2,22 +2,18 @@
 import { useRoute } from 'vue-router'
 import { onBeforeMount, ref, reactive, watch } from 'vue'
 import CitationBox from '../components/CitationBox.vue'
+import JournalPublisherBox from '../components/JournalPublisherBox.vue'
 
 let route = useRoute()
 const articleObject: any = ref({})
-const link = ref('')
 const currentTab = ref('abstract')
 
 onBeforeMount(() => {
   if (route.params.doi) {
     let doi = <string[]>route.params.doi
-    // fetch('http://localhost/api/doi/' + doi.join('/'))
-    fetch('https://api.openalex.org/works/doi:' + doi.join('/'))
+    fetch('http://localhost/api/doi/' + doi.join('/'))
       .then((res) => res.json())
       .then((json) => (articleObject.value = json));
-    fetch('https://doi.org/api/handles/' + doi.join('/') + '?type=URL')
-      .then((res) => res.json())
-      .then((json) => (link.value = json.values[0].data.value));
   }
 })
 
@@ -42,6 +38,7 @@ const tabSwitch = (tab: string) => {
           <div class="columns is-v-centered is-desktop">
             <div class="column">
               <h1 class="title is-2">{{ articleObject.title }}</h1>
+              <small>{{articleObject.link}}</small>
             </div>
             <div class="column is-narrow has-text-right">
               <a href="#" class="button is-danger m-1">
@@ -81,12 +78,11 @@ const tabSwitch = (tab: string) => {
         </div>
         <div class="box">
           <h3 class="title is-3">Abstract</h3>
-          <p>{{link}}</p>
+          <p>{{articleObject.link}}</p>
           <div>
-            <p>{{ articleObject.abstract }}</p>
+            <p class="has-text-serif is-size-5">{{ articleObject.abstract }}</p>
           </div>
         </div>
-        
       </div>
       <div class="column">
         <CitationBox doi="10.1126/science.169.3946.635" default="mla" />
@@ -118,13 +114,7 @@ const tabSwitch = (tab: string) => {
             </div>
           </div>
         </article>
-        <div class="box">
-          <h6 class="is-6 title">Journal & Publishing Information</h6>
-          <p class="is-6">
-            <span>Journal:</span>
-            <span class="has-text-weight-semibold">a</span>
-          </p>
-        </div>
+        <JournalPublisherBox :host="articleObject.host_venue"/>
       </div>
     </div>
   </div>

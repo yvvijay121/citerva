@@ -15,6 +15,9 @@
   #brandimage {
     height: 1.25em;
   }
+  .has-text-serif{
+    font-family: 'Computer Modern Serif', 'Times New Roman', serif;
+  }
 </style>
 <template>
   <nav class="level is-transparent is-white px-5 pt-4 is-mobile" :class="{ hidden: currentRoute }">

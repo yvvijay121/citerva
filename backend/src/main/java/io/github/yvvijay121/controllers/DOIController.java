@@ -33,12 +33,32 @@ public class DOIController {
         return client.send(request, BodyHandlers.ofString());
     }
 
+    public static HttpResponse<String> getOpenAlexVenueObject(String link) throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String[] linkParts = link.split("/");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://api.openalex.org/venues/" + linkParts[linkParts.length - 1]))
+                .header("User-Agent", "mailto:" + EMAIL)
+                .GET()
+                .build();
+        return client.send(request, BodyHandlers.ofString());
+    }
+
     // create a new method that retrieves the data from the Unpaywall API
     // and returns it as an HttpResponse
     public static HttpResponse<String> getUnpaywallObject(String doi) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("https://api.unpaywall.org/v2/" + doi + "?email=" + EMAIL))
+                .GET()
+                .build();
+        return client.send(request, BodyHandlers.ofString());
+    }
+
+    public static HttpResponse<String> getLinkofDOI(String doi) throws URISyntaxException, IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://doi.org/api/handles/" + doi + "?type=URL"))
                 .GET()
                 .build();
         return client.send(request, BodyHandlers.ofString());
@@ -58,10 +78,18 @@ public class DOIController {
             String articleAbstractString = convertInvertedIndexToString(result);
             // Modification 2. Add the open access information to the JSON
             JsonNode unpaywallJson = objectMapper.readTree(unpaywall.body());
+            // Modification 3. Add the venue information to the JSON
+            HttpResponse<String> openAlexVenue = getOpenAlexVenueObject(openAlexJson.get("host_venue").get("id").asText());
+            JsonNode venueJson = objectMapper.readTree(openAlexVenue.body());
+            // Modification 4. Add the link to the JSON
+            HttpResponse<String> link = getLinkofDOI(doi);
+            JsonNode linkJson = objectMapper.readTree(link.body()).get("values").get(0).get("data").get("value");
+
             openAlexJson.put("abstract", articleAbstractString);
             openAlexJson.remove("abstract_inverted_index");
-            openAlexJson.set("unpaywall", unpaywallJson);
-            openAlexJson.remove("open_access");
+            openAlexJson.set("open_access", unpaywallJson);
+            openAlexJson.set("host_venue", venueJson);
+            openAlexJson.set("link", linkJson);
 
             ctx.json(openAlexJson);
         } catch (URISyntaxException | IOException | InterruptedException e) {
