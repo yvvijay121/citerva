@@ -1,5 +1,5 @@
-<style scoped lang="scss">
-  #brandimage {
+<style lang="scss">
+  .brandimage {
     height: 1.75em;
     margin: 2.5em;
   }
@@ -14,7 +14,7 @@
   >
     <div class="hero-body column is-narrow">
       <div class="box has-text-centered">
-        <img id="brandimage" :src="require('../assets/image.svg')" />
+        <img class="brandimage" :src="require('../assets/image.svg')" />
         <div class="field">
           <div class="control">
             <input

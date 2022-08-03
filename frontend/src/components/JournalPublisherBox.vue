@@ -8,6 +8,11 @@ const props = defineProps({
   .is-7{
     font-size: 0.85em;
   }
+  .mxt-0-5{
+    margin-top: 0.25em;
+    margin-left: 0.125em;
+    margin-right: 0.125em;
+  }
 </style>
 <template>
     <div class="box">
@@ -24,5 +29,21 @@ const props = defineProps({
             <span>ISSN: </span>
             <span class="has-text-weight-semibold">{{ props.host.issn_l }}</span>
         </p>
+        <p class="is-7">
+            <span>Homepage: </span>
+            <span class="has-text-weight-semibold"><a :href="props.host.homepage_url">{{ props.host.homepage_url }}</a></span>
+        </p>
+        <div>
+          <span class="is-7">Concepts: </span>
+          <span class="
+              has-background-link has-text-white
+              is-size-7
+              is-rounded
+              tag
+              mxt-0-5
+            " v-for="concept in props.host.x_concepts.filter(c => c.score > 70)" :key="concept">
+            <span>{{ concept.display_name }}</span>
+          </span>
+        </div>
     </div>
 </template>

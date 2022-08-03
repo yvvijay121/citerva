@@ -5,6 +5,7 @@ import CitationBox from '../components/CitationBox.vue'
 import JournalPublisherBox from '../components/JournalPublisherBox.vue'
 
 let route = useRoute()
+let show = ref(false)
 const articleObject: any = ref({})
 const currentTab = ref('abstract')
 
@@ -31,17 +32,67 @@ const tabSwitch = (tab: string) => {
   }
 </style>
 <template>
-  <div class="container is-fluid">
+  <div
+    class="
+      hero
+      columns
+      is-mobile is-vcentered is-centered is-fullheight
+    "
+    v-if="show"
+  >
+    <div class="hero-body column is-narrow">
+      <div class="box has-text-centered">
+        <img id="brandimage" :src="require('../assets/image.svg')" />
+        <div class="field">
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              :placeholder="'Find an article by ' + typeOfID"
+              v-model="articleID"
+              @keyup.enter="searchRedirect()"
+            />
+          </div>
+        </div>
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <div class="select is-fullwidth">
+              <select v-model="typeOfID">
+                <option disabled value="">Please select one</option>
+                <option>DOI</option>
+                <option>Pubmed</option>
+                <option>PMC</option>
+              </select>
+            </div>
+          </div>
+          <div class="control">
+            <button class="button is-primary" @click="searchRedirect()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      <article
+        class="message is-danger box p-0"
+        :style="{ visibility: validationerror === '' ? 'hidden' : 'visible' }"
+      >
+        <div class="message-body">
+          {{ validationerror }}
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="container is-fluid" v-else>
     <div class="columns">
       <div class="column is-three-quarters-desktop is-two-thirds-tablet">
         <div class="box">
           <div class="columns is-v-centered is-desktop mb-0">
             <div class="column">
               <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
-              <nav class="breadcrumb has-dot-separator">
+              <nav class="breadcrumb has-dot-separator is-size-7">
                 <ul>
-                  <li><a href="{{ articleObject.link }}">{{ articleObject.link }}</a></li>
-                  <li><a href="{{ articleObject.doi }}">{{ articleObject.doi }}</a></li>
+                  <li><a :href="articleObject.link">{{ articleObject.link }}</a></li>
+                  <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
                 </ul>
               </nav>
             </div>
@@ -81,10 +132,26 @@ const tabSwitch = (tab: string) => {
             <li :class="{'is-active': currentTab === 'citation'}"><a @click="tabSwitch('citation')">Citations</a></li>
           </ul>
         </div>
-        <div class="box">
-          <h3 class="title is-3">Abstract</h3>
-          <div>
-            <p class="has-text-serif is-size-5">{{ articleObject.abstract }}</p>
+        <div v-if="currentTab === 'abstract'">
+          <div class="box">
+            <h3 class="title is-3 mb-2">Abstract</h3>
+            <div>
+              <p>{{ articleObject.abstract }}</p>
+            </div>
+          </div>
+        </div>
+        <div v-if="currentTab === 'related'">
+          <div class="box">
+            <h3 class="title is-3 mb-2">Related Information</h3>
+            <div>
+              
+            </div>
+          </div>
+        </div>
+        <div v-if="currentTab === 'citation'">
+          <div class="box">
+            <h3 class="title is-3 mb-2">Citations</h3>
+            
           </div>
         </div>
       </div>
