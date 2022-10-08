@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 const props = defineProps({
-  doi: { type: String, required: true },
-  default: { type: String, required: true }
+  doi: { type: String, required: true }
 })
 const citation = ref('Error loading citation.');
-const citationtype = ref(props.default);
+const citationtype = ref("mla");
 const options = [
   { text: 'MLA', value: 'mla' },
   { text: 'APA', value: 'apa' },
@@ -14,11 +13,12 @@ const options = [
 function cite() {
   fetch('https://doi.org/' + props.doi, {
     headers: {
-      Accept: 'text/x-bibliography; style=' + citationtype,
+      Accept: 'text/x-bibliography; style=' + citationtype.value,
     },
   }).then((res) => res.text())
     .then((text) => (citation.value = text));
 }
+cite();
 </script>
 
 <template>
@@ -43,7 +43,6 @@ function cite() {
   </article>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

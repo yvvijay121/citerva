@@ -143,7 +143,7 @@ const tabSwitch = (tab: string) => {
           </div>
         </div>
         <div class="column">
-          <CitationBox doi="10.1126/science.169.3946.635" default="mla" />
+          <CitationBox doi="10.1126/science.169.3946.635"/>
           <article class="box p-0 message is-success">
             <div class="message-header">
               <p class="capitalize">Open Access Status:</p>
