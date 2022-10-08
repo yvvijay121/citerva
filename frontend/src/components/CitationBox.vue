@@ -6,14 +6,18 @@ const props = defineProps({
 })
 const citation = ref('Error loading citation.');
 const citationtype = ref(props.default);
-
+const options = [
+  { text: 'MLA', value: 'mla' },
+  { text: 'APA', value: 'apa' },
+  { text: 'Toronto', value: 'toronto' }
+];
 function cite() {
   fetch('https://doi.org/' + props.doi, {
     headers: {
       Accept: 'text/x-bibliography; style=' + citationtype,
     },
   }).then((res) => res.text())
-  .then((text) => (citation.value = text));
+    .then((text) => (citation.value = text));
 }
 </script>
 
@@ -40,4 +44,6 @@ function cite() {
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+
+</style>

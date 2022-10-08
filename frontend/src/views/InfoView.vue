@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import CitationBox from '../components/CitationBox.vue'
 import JournalPublisherBox from '../components/JournalPublisherBox.vue'
+import ArticleButtons from '../components/ArticleButtons.vue'
 
 let route = useRoute()
-let show = ref(false)
+let loading = ref(true)
 const articleObject: any = ref({})
 const currentTab = ref('abstract')
 
-onBeforeMount(() => {
-  if (route.params.doi) {
-    let doi = <string[]>route.params.doi
-    fetch('http://localhost/api/doi/' + doi.join('/'))
-      .then((res) => res.json())
-      .then((json) => (articleObject.value = json));
-  }
+if (route.params.doi) {
+  let doi = <string[]> route.params.doi
+  fetch('http://localhost/api/doi/' + doi.join('/'))
+    .then((res) => res.json())
+    .then((json) => (articleObject.value = json));
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false
+  }, 2500)
 })
 
 // create a function called "tabSwitch" that takes in a tab name and sets the current tab to that tab
@@ -24,97 +29,75 @@ const tabSwitch = (tab: string) => {
 }
 </script>
 <style lang="scss" scoped>
-  .modal-background-lighter {
-    background-color: rgba(0, 0, 0, 0.25);
-  }
-  .capitalize {
-    text-transform: capitalize;
-  }
+.modal-background-lighter {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.is-tall {
+  height: calc(100vh - 12.5em)
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.1875s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
 <template>
-  <div
-    class="
+  <transition mode="out-in">
+    <div class="
       hero
       columns
-      is-mobile is-vcentered is-centered is-fullheight
-    "
-    v-if="show"
-  >
-    <div class="hero-body column is-narrow">
-      <div class="box has-text-centered">
-        <img id="brandimage" :src="require('../assets/image.svg')" />
-        <div class="field">
-          <div class="control">
-            <input
-              class="input"
-              type="text"
-              :placeholder="'Find an article by ' + typeOfID"
-              v-model="articleID"
-              @keyup.enter="searchRedirect()"
-            />
-          </div>
-        </div>
-        <div class="field has-addons">
-          <div class="control is-expanded">
-            <div class="select is-fullwidth">
-              <select v-model="typeOfID">
-                <option disabled value="">Please select one</option>
-                <option>DOI</option>
-                <option>Pubmed</option>
-                <option>PMC</option>
-              </select>
-            </div>
-          </div>
-          <div class="control">
-            <button class="button is-primary" @click="searchRedirect()">
-              Submit
-            </button>
-          </div>
+      is-mobile is-vcentered is-centered is-tall
+    " v-if="loading">
+      <div class="hero-body column is-narrow">
+        <div class="box has-text-centered">
+          <img class="brandimage" :src="require('../assets/image.svg')" />
+          <progress class="progress is-primary" max="100">15%</progress>
         </div>
       </div>
-      <article
-        class="message is-danger box p-0"
-        :style="{ visibility: validationerror === '' ? 'hidden' : 'visible' }"
-      >
-        <div class="message-body">
-          {{ validationerror }}
-        </div>
-      </article>
     </div>
-  </div>
-  <div class="container is-fluid" v-else>
-    <div class="columns">
-      <div class="column is-three-quarters-desktop is-two-thirds-tablet">
-        <div class="box">
-          <div class="columns is-v-centered is-desktop mb-0">
-            <div class="column">
-              <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
-              <nav class="breadcrumb has-dot-separator is-size-7">
-                <ul>
-                  <li><a :href="articleObject.link">{{ articleObject.link }}</a></li>
-                  <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
-                </ul>
-              </nav>
+    <div class="container is-fluid" v-else>
+      <div class="columns">
+        <div class="column is-three-quarters-desktop is-two-thirds-tablet">
+          <div class="box">
+            <div class="columns is-v-centered is-desktop mb-0">
+              <div class="column">
+                <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
+                <nav class="breadcrumb has-dot-separator is-size-7">
+                  <ul>
+                    <li><a :href="articleObject.link">{{ articleObject.link }}</a></li>
+                    <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="column is-narrow has-text-right">
+                <a href="#" class="button is-danger m-1">
+                  <span class="icon is-small">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Article PDF</span>
+                </a>
+                <br class="is-hidden-touch">
+                <a href="#" class="button is-primary m-1">
+                  <span class="icon is-small">
+                    <i class="fas fa-file-alt"></i>
+                  </span>
+                  <span>Full Text</span>
+                </a>
+              </div>
             </div>
-            <div class="column is-narrow has-text-right">
-              <a href="#" class="button is-danger m-1">
-                <span class="icon is-small">
-                  <i class="fas fa-file-pdf"></i>
-                </span>
-                <span>Article PDF</span>
-              </a>
-              <br class="is-hidden-touch">
-              <a href="#" class="button is-primary m-1">
-                <span class="icon is-small">
-                  <i class="fas fa-file-alt"></i>
-                </span>
-                <span>Full Text</span>
-              </a>
-            </div>
-          </div>
-          <div class="box is-rounded has-background-light p-3">
-            <span class="is-6 title mx-1">Authors:</span>
-            <span class="
+            <div class="box is-rounded has-background-light p-3">
+              <span class="is-6 title mx-1">Authors:</span>
+              <span class="
                 has-background-dark has-text-white
                 is-size-7
                 p-2
@@ -123,70 +106,75 @@ const tabSwitch = (tab: string) => {
                 is-rounded
                 tag
               " v-for="(item, index) in articleObject.authorships" :key="index">{{ item.author.display_name }}</span>
+            </div>
           </div>
-        </div>
-        <div class="tabs">
-          <ul>
-            <li :class="{'is-active': currentTab === 'abstract'}"><a @click="tabSwitch('abstract')">Abstract & Concept Information</a></li>
-            <li :class="{'is-active': currentTab === 'related'}"><a @click="tabSwitch('related')">Related Information</a></li>
-            <li :class="{'is-active': currentTab === 'citation'}"><a @click="tabSwitch('citation')">Citations</a></li>
-          </ul>
-        </div>
-        <div v-if="currentTab === 'abstract'">
-          <div class="box">
-            <h3 class="title is-3 mb-2">Abstract</h3>
-            <div>
-              <p>{{ articleObject.abstract }}</p>
+          <div class="tabs">
+            <ul>
+              <li :class="{ 'is-active': currentTab === 'abstract' }"><a @click="tabSwitch('abstract')">Abstract &
+                  Concept
+                  Information</a></li>
+              <li :class="{ 'is-active': currentTab === 'related' }"><a @click="tabSwitch('related')">Related
+                  Information</a></li>
+              <li :class="{ 'is-active': currentTab === 'citation' }"><a @click="tabSwitch('citation')">Citations</a>
+              </li>
+            </ul>
+          </div>
+          <div v-if="currentTab === 'abstract'">
+            <div class="box">
+              <h3 class="title is-3 mb-2">Abstract</h3>
+              <div>
+                <p>{{ articleObject.abstract }}</p>
+              </div>
+            </div>
+          </div>
+          <div v-if="currentTab === 'related'">
+            <div class="box">
+              <h3 class="title is-3 mb-2">Related Information</h3>
+              <div>
+
+              </div>
+            </div>
+          </div>
+          <div v-if="currentTab === 'citation'">
+            <div class="box">
+              <h3 class="title is-3 mb-2">Citations</h3>
+
             </div>
           </div>
         </div>
-        <div v-if="currentTab === 'related'">
-          <div class="box">
-            <h3 class="title is-3 mb-2">Related Information</h3>
-            <div>
-              
+        <div class="column">
+          <CitationBox doi="10.1126/science.169.3946.635" default="mla" />
+          <article class="box p-0 message is-success">
+            <div class="message-header">
+              <p class="capitalize">Open Access Status:</p>
+              <!-- <p class="capitalize">Open Access Status: {{ articleObject.unpaywall.oa_status }}</p> -->
             </div>
-          </div>
-        </div>
-        <div v-if="currentTab === 'citation'">
-          <div class="box">
-            <h3 class="title is-3 mb-2">Citations</h3>
-            
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <CitationBox doi="10.1126/science.169.3946.635" default="mla" />
-        <article class="box p-0 message is-success">
-          <div class="message-header">
-            <p class="capitalize">Open Access Status:</p>
-            <!-- <p class="capitalize">Open Access Status: {{ articleObject.unpaywall.oa_status }}</p> -->
-          </div>
-          <div class="message-body">
-            <div class="content">
-              <a href="#" class="button is-danger m-1">
-                <span class="icon is-small">
-                  <i class="fas fa-file-pdf"></i>
-                </span>
-                <span>Article PDF</span>
-              </a>
-              <a href="#" class="button is-primary m-1">
-                <span class="icon is-small">
-                  <i class="fas fa-file-alt"></i>
-                </span>
-                <span>Full Text</span>
-              </a>
-              <a href="#" class="button is-link m-1">
-                <span class="icon is-small">
-                  <i class="fas fa-info-circle"></i>
-                </span>
-                <span>What is this?</span>
-              </a>
+            <div class="message-body">
+              <div class="content">
+                <a href="#" class="button is-danger m-1">
+                  <span class="icon is-small">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Article PDF</span>
+                </a>
+                <a href="#" class="button is-primary m-1">
+                  <span class="icon is-small">
+                    <i class="fas fa-file-alt"></i>
+                  </span>
+                  <span>Full Text</span>
+                </a>
+                <a href="#" class="button is-link m-1">
+                  <span class="icon is-small">
+                    <i class="fas fa-info-circle"></i>
+                  </span>
+                  <span>What is this?</span>
+                </a>
+              </div>
             </div>
-          </div>
-        </article>
-        <JournalPublisherBox :host="articleObject.host_venue"/>
+          </article>
+          <JournalPublisherBox :host="articleObject.host_venue" />
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
