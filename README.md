@@ -1,6 +1,8 @@
-# Endnoted
+# Citerva
 
-Hello! Endnoted, which hasn't been created yet, will be a open-access, open-source bibliometrics application to search up and analyze research articles and its related information, such as authors, cited articles, related concepts, and more! This project is based off of the [OpenAlex project](https://openalex.org/), an open and comprehensive catalog of research papers.
+Hello! Citerva, which isn't finished yet, is an open-access, open-source bibliometrics application to search up and analyze research articles and its related information, such as authors, cited articles, related concepts, and more! This project is based off of the [OpenAlex project](https://openalex.org/), an open and comprehensive catalog of research papers.
+
+![image](https://user-images.githubusercontent.com/62124499/193377370-b3330b22-9b10-4040-9c5c-eb2f44a949ba.png)
 
 ## Structure
 
@@ -26,7 +28,7 @@ At this point, the Javalin backend isn't really necessary; it only does some sma
   - [x] Add basic article information
   - [ ] Implement network graph
   - [ ] Add related sources (get information from Wikipedia)
-- [ ] Make everything look fancy!
+- [x] Make everything look fancy!
 - [ ] Future Ideas:
   - [ ] Add author information from ORCID (when provided)
       - Can use [ORCID content negotiation](https://github.com/ORCID/ORCID-Source/blob/master/CONTENT_NEGOTIATION.md)
