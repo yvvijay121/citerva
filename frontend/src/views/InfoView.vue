@@ -9,19 +9,13 @@ let route = useRoute()
 let loading = ref(true)
 const articleObject: any = ref({})
 const currentTab = ref('abstract')
-
+const doi = ref((<string[]> route.params.doi).join('/'))
 if (route.params.doi) {
-  let doi = <string[]> route.params.doi
-  fetch('http://localhost/api/doi/' + doi.join('/'))
+  fetch('http://localhost/api/doi/' + doi.value)
     .then((res) => res.json())
-    .then((json) => (articleObject.value = json));
+    .then((json) => (articleObject.value = json))
+    .then(() => loading.value = false);
 }
-
-onMounted(() => {
-  setTimeout(() => {
-    loading.value = false
-  }, 2500)
-})
 
 // create a function called "tabSwitch" that takes in a tab name and sets the current tab to that tab
 const tabSwitch = (tab: string) => {
@@ -66,7 +60,7 @@ const tabSwitch = (tab: string) => {
       </div>
     </div>
     <div class="container is-fluid" v-else>
-      <div class="columns">
+      <div class="columns is-mobile is-centered mx-4">
         <div class="column is-three-quarters-desktop is-two-thirds-tablet">
           <div class="box">
             <div class="columns is-v-centered is-desktop mb-0">
@@ -142,7 +136,7 @@ const tabSwitch = (tab: string) => {
             </div>
           </div>
         </div>
-        <div class="column">
+        <div class="column is-one-quarters-desktop is-one-thirds-tablet">
           <CitationBox doi="10.1126/science.169.3946.635"/>
           <article class="box p-0 message is-success">
             <div class="message-header">
