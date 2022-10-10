@@ -7,9 +7,9 @@ const citation = ref('Loading citation...');
 const citationtype = ref("mla");
 const loading = ref(true);
 const options = [
-  { text: 'MLA', value: 'mla' },
+  { text: 'MLA', value: 'modern-language-association' },
   { text: 'APA', value: 'apa' },
-  { text: 'Toronto', value: 'toronto' }
+  { text: 'Chicago', value: 'chicago-fullnote-bibliography' }
 ];
 function cite() {
   loading.value = true;
