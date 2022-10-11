@@ -4,7 +4,7 @@ const props = defineProps({
   doi: { type: String, required: true }
 })
 const citation = ref('Loading citation...');
-const citationtype = ref("mla");
+const citationtype = ref("modern-language-association");
 const loading = ref(true);
 const options = [
   { text: 'MLA', value: 'modern-language-association' },

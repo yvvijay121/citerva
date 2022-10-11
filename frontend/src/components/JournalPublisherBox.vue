@@ -41,7 +41,7 @@ const props = defineProps({
               is-rounded
               tag
               mxt-0-5
-            " v-for="concept in props.host.x_concepts.filter(c => c.score > 70)" :key="concept">
+            " v-for="concept in props.host.x_concepts.filter((c: any) => c.score > 70)" :key="concept">
             <span>{{ concept.display_name }}</span>
           </span>
         </div>

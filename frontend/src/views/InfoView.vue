@@ -3,13 +3,14 @@ import { useRoute } from 'vue-router'
 import { onBeforeMount, onMounted, ref } from 'vue'
 import CitationBox from '../components/CitationBox.vue'
 import JournalPublisherBox from '../components/JournalPublisherBox.vue'
+import ConceptBox from '../components/ConceptBox.vue'
 import ArticleButtons from '../components/ArticleButtons.vue'
 
 let route = useRoute()
 let loading = ref(true)
 const articleObject: any = ref({})
 const currentTab = ref('abstract')
-const doi = ref((<string[]> route.params.doi).join('/'))
+const doi = ref((<string[]>route.params.doi).join('/'))
 if (route.params.doi) {
   fetch('http://localhost/api/doi/' + doi.value)
     .then((res) => res.json())
@@ -116,10 +117,9 @@ const tabSwitch = (tab: string) => {
           <div v-if="currentTab === 'abstract'">
             <div class="box">
               <h3 class="title is-3 mb-2">Abstract</h3>
-              <div>
-                <p>{{ articleObject.abstract }}</p>
-              </div>
+              <p class="pb-5">{{ articleObject.abstract }}</p>
             </div>
+            <ConceptBox :concepts="articleObject.concepts" />
           </div>
           <div v-if="currentTab === 'related'">
             <div class="box">
@@ -137,7 +137,7 @@ const tabSwitch = (tab: string) => {
           </div>
         </div>
         <div class="column is-one-quarters-desktop is-one-thirds-tablet">
-          <CitationBox :doi="doi"/>
+          <CitationBox :doi="doi" />
           <article class="box p-0 message is-success">
             <div class="message-header">
               <p class="capitalize">Open Access Status:</p>
