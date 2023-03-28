@@ -93,7 +93,7 @@ public class DOIController {
             openAlexJson.set("link", linkJson);
 
             ctx.json(openAlexJson);
-        } catch (Exception e) {
+        } catch (URISyntaxException | IOException | InterruptedException e) {
             ctx.result(e.getClass().getName() + ": " + e.getMessage());
         }
     }
