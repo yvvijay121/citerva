@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue'
+import { ref, Ref, onBeforeMount } from 'vue'
+import ConceptObj from '../components/ConceptObj.vue'
 const props = defineProps({
   concepts: { type: Object, required: true }
 })
 
-var conceptListString = 'https://api.openalex.org/concepts?filter=openalex:';
+var conceptListString = 'https://api.openalex.org/concepts?select=display_name,ids,description,image_url,level,wikidata&filter=openalex:';
 for (let i = 0; i < props.concepts.length; i++) conceptListString += props.concepts[i].id.split("/")[3] + '|';
 conceptListString = conceptListString.slice(0, -1);
 
+const detailedConcepts = ref([])
+
+onBeforeMount(async () => {
+  const response = await fetch(conceptListString)
+  detailedConcepts.value = await response.json()
+})
 </script>
 <style lang="scss" scoped>
 @import "node_modules/nord/src/sass/nord.scss";
@@ -28,12 +35,9 @@ conceptListString = conceptListString.slice(0, -1);
 
 <template>
   <div class="box">
-    <h3 class="title is-3 mb-2">Abstract</h3>
+    <h3 class="title is-3 mb-2">Concepts</h3>
     <div class="concept-obj-container">
-      <div class="box concept-obj" v-for="concept in concepts">
-        <h6 class="title is-6 mb-1">{{ concept.display_name }}</h6>
-        <p>{{ concept.id }}</p>
-      </div>
+      <ConceptObj v-for="concept in detailedConcepts.results" :concept="concept" />
     </div>
   </div>
 </template>

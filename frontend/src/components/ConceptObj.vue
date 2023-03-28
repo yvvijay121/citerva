@@ -5,15 +5,22 @@ const props = defineProps({
 })
 </script>
 <style lang="scss" scoped>
-.concept-image {
+.box-concept {
+  width: 15vw;
+  margin: 0.5rem;
   background-repeat: no-repeat;
-  background-position: center;
+  background-size: cover;
+  opacity: 0.8;
 }
-
 </style>
 <template>
-    <div class="background box is-2 column concept-image" :style="{ backgroundImage: `url(${concept.image_url})` }">
-      <h3 class="title is-3">{{ concept.name }}</h3>
-      <p>{{ concept.description }}</p>
-    </div>
+  
+  <div class="box box-concept" :style="{ backgroundImage: `linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.75)), url(${props.concept.image_url})` }">
+    <h6 class="title is-6 mb-1 has-text-white">
+      <a :href="`${props.concept.ids.wikipedia}`">
+        {{ props.concept.display_name }}
+      </a>
+    </h6>
+    <p class="is-7 has-text-white">{{ props.concept.description }}</p>
+  </div>
 </template>

@@ -99,11 +99,11 @@ const tabSwitch = (tab: string) => {
             </ul>
           </div>
           <div v-if="currentTab === 'abstract'">
+            <ConceptBox :concepts="articleObject.concepts" />
             <div class="box">
               <h3 class="title is-3 mb-2">Abstract</h3>
-              <p class="pb-5">{{ articleObject.abstract }}</p>
+              <p>{{ articleObject.abstract }}</p>
             </div>
-            <ConceptBox :concepts="articleObject.concepts" />
           </div>
           <div v-if="currentTab === 'related'">
             <div class="box">
@@ -122,34 +122,7 @@ const tabSwitch = (tab: string) => {
         </div>
         <div class="column is-one-quarters-desktop is-one-thirds-tablet">
           <CitationBox :doi="doi" />
-          <article class="box p-0 message is-success">
-            <div class="message-header">
-              <p class="capitalize">Open Access Status:</p>
-              <!-- <p class="capitalize">Open Access Status: {{ articleObject.unpaywall.oa_status }}</p> -->
-            </div>
-            <div class="message-body">
-              <div class="content">
-                <a href="#" class="button is-danger m-1">
-                  <span class="icon is-small">
-                    <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Article PDF</span>
-                </a>
-                <a href="#" class="button is-primary m-1">
-                  <span class="icon is-small">
-                    <i class="fas fa-file-alt"></i>
-                  </span>
-                  <span>Full Text</span>
-                </a>
-                <a href="#" class="button is-link m-1">
-                  <span class="icon is-small">
-                    <i class="fas fa-info-circle"></i>
-                  </span>
-                  <span>What is this?</span>
-                </a>
-              </div>
-            </div>
-          </article>
+          <ArticleButtons :open_access="articleObject.open_access" />
           <JournalPublisherBox :host="articleObject.host_venue" />
         </div>
       </div>
