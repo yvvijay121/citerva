@@ -1,29 +1,22 @@
 <style lang="scss">
-  .brandimage {
-    height: 1.75em;
-    margin: 2.5em;
-  }
+.brandimage {
+  height: 1.75em;
+  margin: 2.5em;
+}
 </style>
 <template>
-  <div
-    class="
+  <div class="
       hero
       columns
       is-mobile is-vcentered is-centered is-fullheight
-    "
-  >
+    ">
     <div class="hero-body column is-narrow">
       <div class="box has-text-centered">
         <img class="brandimage" :src="require('../assets/image.svg')" />
         <div class="field">
           <div class="control">
-            <input
-              class="input"
-              type="text"
-              :placeholder="'Find an article by ' + typeOfID"
-              v-model="articleID"
-              @keyup.enter="searchRedirect()"
-            />
+            <input class="input" type="text" :placeholder="'Find an article by ' + typeOfID" v-model="articleID"
+              @keyup.enter="searchRedirect()" />
           </div>
         </div>
         <div class="field has-addons">
@@ -43,15 +36,12 @@
             </button>
           </div>
         </div>
+        <article class="message is-danger box p-0" v-if="validationerror">
+          <div class="message-body">
+            {{ validationerror }}
+          </div>
+        </article>
       </div>
-      <article
-        class="message is-danger box p-0"
-        :style="{ visibility: validationerror === '' ? 'hidden' : 'visible' }"
-      >
-        <div class="message-body">
-          {{ validationerror }}
-        </div>
-      </article>
     </div>
   </div>
 </template>

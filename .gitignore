@@ -73,3 +73,12 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# vscode
+.vscode/*
+
+# Intellij
+.idea/*
+
+# any .env file
+*.env

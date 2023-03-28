@@ -3,25 +3,37 @@ import { ref, onBeforeMount } from 'vue'
 const props = defineProps({
   concepts: { type: Object, required: true }
 })
-const conceptObjects = ref([]); // array of concept objects
-onBeforeMount(() => {
-  var conceptMassRequestURL = "https://api.openalex.org/concepts?filter=openalex:"
-  var concept = props.concepts;
-  for(var i = 0; i < concept.length; i++) {
-    console.log(concept[i]);
-  }
-})
+
+var conceptListString = 'https://api.openalex.org/concepts?filter=openalex:';
+for (let i = 0; i < props.concepts.length; i++) conceptListString += props.concepts[i].id.split("/")[3] + '|';
+conceptListString = conceptListString.slice(0, -1);
+
 </script>
 <style lang="scss" scoped>
-.concept-image {
-  background-repeat: no-repeat;
-  background-position: center;
+@import "node_modules/nord/src/sass/nord.scss";
+
+.concept-obj {
+  width: fit-content;
+  margin: 0.5rem;
+}
+
+.concept-obj-container {
+  display: grid;
+  grid-auto-flow: column;
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: $nord9 $nord6;
 }
 </style>
+
 <template>
-  <!-- TODO: Finish component by figuring out how to make one mass request to prevent 429 errors, and how to make it look nice. -->
-    <!-- <div class="background box is-2 column concept-image" :style="{ backgroundImage: `url(${concept.image_url})` }">
-      <h3 class="title is-3">{{ concept.name }}</h3>
-      <p>{{ concept.description }}</p>
-    </div> -->
+  <div class="box">
+    <h3 class="title is-3 mb-2">Abstract</h3>
+    <div class="concept-obj-container">
+      <div class="box concept-obj" v-for="concept in concepts">
+        <h6 class="title is-6 mb-1">{{ concept.display_name }}</h6>
+        <p>{{ concept.id }}</p>
+      </div>
+    </div>
+  </div>
 </template>

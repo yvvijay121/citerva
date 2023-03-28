@@ -67,32 +67,13 @@ const tabSwitch = (tab: string) => {
       <div class="columns is-mobile is-centered mx-4">
         <div class="column is-three-quarters-desktop is-two-thirds-tablet">
           <div class="box">
-            <div class="columns is-v-centered is-desktop mb-0">
-              <div class="column">
-                <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
-                <nav class="breadcrumb has-dot-separator is-size-7">
-                  <ul>
-                    <li><a :href="articleObject.link">{{ articleObject.link }}</a></li>
-                    <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
-                  </ul>
-                </nav>
-              </div>
-              <div class="column is-narrow has-text-right">
-                <a href="#" class="button is-danger m-1">
-                  <span class="icon is-small">
-                    <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Article PDF</span>
-                </a>
-                <br class="is-hidden-touch">
-                <a href="#" class="button is-primary m-1">
-                  <span class="icon is-small">
-                    <i class="fas fa-file-alt"></i>
-                  </span>
-                  <span>Full Text</span>
-                </a>
-              </div>
-            </div>
+            <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
+            <nav class="breadcrumb has-dot-separator is-size-7 mb-2">
+              <ul>
+                <li><a :href="articleObject.link">{{ articleObject.link }}</a></li>
+                <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
+              </ul>
+            </nav>
             <div class="box is-rounded has-background-light p-3">
               <span class="is-6 title mx-1">Authors:</span>
               <span class="

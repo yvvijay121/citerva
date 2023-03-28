@@ -9,6 +9,7 @@ const props = defineProps({
   background-repeat: no-repeat;
   background-position: center;
 }
+
 </style>
 <template>
     <div class="background box is-2 column concept-image" :style="{ backgroundImage: `url(${concept.image_url})` }">
