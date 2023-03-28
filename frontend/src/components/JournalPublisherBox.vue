@@ -23,7 +23,7 @@ const props = defineProps({
         </p>
         <p class="is-7">
             <span>Publisher: </span>
-            <span class="has-text-weight-semibold">{{ props.host.publisher }}</span>
+            <span class="has-text-weight-semibold">{{ props.host.host_organization_name }}</span>
         </p>
         <p class="is-7">
             <span>ISSN: </span>

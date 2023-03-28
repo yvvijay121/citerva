@@ -13,7 +13,10 @@ const currentTab = ref('abstract')
 const doi = ref((<string[]>route.params.doi).join('/'))
 if (route.params.doi) {
   fetch('http://localhost/api/doi/' + doi.value)
-    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
+      return res.json();
+    })
     .then((json) => (articleObject.value = json))
     .then(() => loading.value = false);
 }
@@ -49,10 +52,10 @@ const tabSwitch = (tab: string) => {
 <template>
   <transition mode="out-in">
     <div class="
-      hero
-      columns
-      is-mobile is-vcentered is-centered is-tall
-    " v-if="loading">
+        hero
+        columns
+        is-mobile is-vcentered is-centered is-tall
+      " v-if="loading">
       <div class="hero-body column is-narrow">
         <div class="box has-text-centered">
           <img class="brandimage" :src="require('../assets/image.svg')" />
@@ -93,14 +96,14 @@ const tabSwitch = (tab: string) => {
             <div class="box is-rounded has-background-light p-3">
               <span class="is-6 title mx-1">Authors:</span>
               <span class="
-                has-background-dark has-text-white
-                is-size-7
-                p-2
-                mx-1
-                mt-1
-                is-rounded
-                tag
-              " v-for="(item, index) in articleObject.authorships" :key="index">{{ item.author.display_name }}</span>
+                  has-background-dark has-text-white
+                  is-size-7
+                  p-2
+                  mx-1
+                  mt-1
+                  is-rounded
+                  tag
+                " v-for="(item, index) in articleObject.authorships" :key="index">{{ item.author.display_name }}</span>
             </div>
           </div>
           <div class="tabs">
