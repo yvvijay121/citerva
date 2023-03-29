@@ -22,14 +22,14 @@ function capitalizeFirstLetter(str: string) {
                     <span class="has-text-weight-semibold">{{ props.open_access.best_oa_location.license.toUpperCase()
                     }}</span>
                 </p>
-                <a class="button is-danger m-1" v-if="props.open_access.best_oa_location.url_for_landing_page"
+                <a class="button is-danger m-1"
                     :href="props.open_access.best_oa_location.url_for_landing_page">
                     <span class="icon is-small">
                         <i class="fas fa-file-pdf"></i>
                     </span>
                     <span>Article PDF</span>
                 </a>
-                <a class="button is-primary m-1" v-if="props.open_access.best_oa_location.url_for_pdf"
+                <a class="button is-primary m-1"
                     :href="props.open_access.best_oa_location.url_for_pdf">
                     <span class="icon is-small">
                         <i class="fas fa-file-alt"></i>
