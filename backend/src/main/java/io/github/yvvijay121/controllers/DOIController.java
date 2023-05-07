@@ -23,7 +23,7 @@ public class DOIController {
 
     // create a new method that retrieves the data from the OpenAlex API
     // and returns it as an HttpResponse
-    public static HttpResponse<String> getOpenAlexObject(String doi) throws URISyntaxException, IOException, InterruptedException {
+    public static HttpResponse<String> getOpenAlexWorkObject(String doi) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("https://api.openalex.org/works/doi:" + doi))
@@ -68,7 +68,7 @@ public class DOIController {
         String doi = ctx.pathParam("id");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            HttpResponse<String> openAlex = getOpenAlexObject(doi);
+            HttpResponse<String> openAlex = getOpenAlexWorkObject(doi);
 
             HttpResponse<String> unpaywall = getUnpaywallObject(doi);
             ObjectNode openAlexJson = objectMapper.readTree(openAlex.body()).deepCopy();
@@ -80,8 +80,12 @@ public class DOIController {
             // Modification 2. Add the open access information to the JSON
             JsonNode unpaywallJson = objectMapper.readTree(unpaywall.body());
             // Modification 3. Add the source information to the JSON
-            HttpResponse<String> openAlexSource = getOpenAlexSourceObject(openAlexJson.get("host_venue").get("id").asText());
+            String[] sourceIDArray = openAlexJson.get("primary_location").get("source").get("id").asText().split("/");
+
+
+            HttpResponse<String> openAlexSource = getOpenAlexSourceObject(sourceIDArray[sourceIDArray.length - 1]);
             JsonNode sourceJson = objectMapper.readTree(openAlexSource.body());
+            
             // Modification 4. Add the link to the JSON
             HttpResponse<String> link = getLinkofDOI(doi);
             JsonNode linkJson = objectMapper.readTree(link.body()).get("values").get(0).get("data").get("value");
@@ -89,7 +93,7 @@ public class DOIController {
             openAlexJson.put("abstract", articleAbstractString);
             openAlexJson.remove("abstract_inverted_index");
             openAlexJson.set("open_access", unpaywallJson);
-            openAlexJson.set("host_venue", sourceJson);
+            openAlexJson.set("primary_location", sourceJson);
             openAlexJson.set("link", linkJson);
 
             ctx.json(openAlexJson);

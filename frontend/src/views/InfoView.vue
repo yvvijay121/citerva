@@ -119,7 +119,7 @@ const tabSwitch = (tab: string) => {
         <div class="column is-one-quarters-desktop is-one-thirds-tablet">
           <CitationBox :doi="doi" />
           <ArticleButtons :open_access="articleObject.open_access" />
-          <JournalPublisherBox :host="articleObject.host_venue" />
+          <JournalPublisherBox :host="articleObject.primary_location" />
         </div>
       </div>
     </div>

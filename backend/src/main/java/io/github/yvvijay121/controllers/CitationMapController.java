@@ -23,7 +23,7 @@ public class CitationMapController {
     public static void retrieveGraph(Context ctx) throws URISyntaxException, IOException, InterruptedException {
         // get the root object from the DOI
         String id = ctx.pathParam("id");
-        HttpResponse<String> a = DOIController.getOpenAlexObject(id);
+        HttpResponse<String> a = DOIController.getOpenAlexWorkObject(id);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree(a.body());
 

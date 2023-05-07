@@ -23,7 +23,7 @@ const props = defineProps({
         </p>
         <p class="is-7">
             <span>Publisher: </span>
-            <span class="has-text-weight-semibold">{{ props.host.host_organization_name }}</span>
+            <span class="has-text-weight-semibold">{{ props.host.host_organization }}</span>
         </p>
         <p class="is-7">
             <span>ISSN: </span>
@@ -41,7 +41,7 @@ const props = defineProps({
               is-rounded
               tag
               mxt-0-5
-            " v-for="concept in props.host.x_concepts.filter((c: any) => c.score > 70)" :key="concept">
+            " v-for="concept in props.host.x_concepts.slice(0,5)" :key="concept">
             <span>{{ concept.display_name }}</span>
           </span>
         </div>

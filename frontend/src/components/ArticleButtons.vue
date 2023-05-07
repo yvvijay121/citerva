@@ -19,8 +19,7 @@ function capitalizeFirstLetter(str: string) {
             <div class="content">
                 <p class="is-7">
                     <span>License: </span>
-                    <span class="has-text-weight-semibold">{{ props.open_access.best_oa_location.license.toUpperCase()
-                    }}</span>
+                    <span class="has-text-weight-semibold">{{ props.open_access.best_oa_location.license?.toUpperCase() ?? 'Unknown' }}</span>
                 </p>
                 <a class="button is-danger m-1"
                     :href="props.open_access.best_oa_location.url_for_landing_page">
