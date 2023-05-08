@@ -28,18 +28,33 @@ public class CitationMapController {
         JsonNode json = objectMapper.readTree(a.body());
 
         // create the root vertex
-        String root = json.get("id").asText().replace("https://openalex.org/", "");
+        String rootID = json.get("id").asText().replace("https://openalex.org/", "");
         String rootTitle = json.get("title").asText();
         String rootDoi = json.get("doi").asText();
-        Vertex rootVertex = new Vertex(root, rootTitle, rootDoi);
+        Vertex rootVertex = new Vertex(rootID, rootTitle, rootDoi);
 
-        // get the cited articles from the object, and convert them to Stream<Vertex>
+        // create the graph
         Graph graph = new Graph(rootVertex);
+
+        // get the cited articles
         JsonNode citedArticles = json.get("referenced_works");
         HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS).build();
 
-        String citedArticlesString = objectMapper.convertValue(citedArticles, new TypeReference<List<String>>() {
-        }).stream().map(s -> s.replace("https://openalex.org/", "")).collect(Collectors.joining("|"));
+        String citedArticlesString = objectMapper.convertValue(citedArticles,
+                new TypeReference<List<String>>() {
+                })
+                .stream()
+                .map(s -> s.replace("https://openalex.org/", ""))
+                .collect(Collectors.joining("|"));
+        
+        // get the cited articles
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://openalex.org/api/v1/works?ids=" + citedArticlesString))
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .header("User-Agent", EMAIL)
+                .GET()
+                .build();
 
         ctx.json(citedArticlesString);
     }

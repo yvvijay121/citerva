@@ -9,11 +9,13 @@ var conceptListString = 'https://api.openalex.org/concepts?select=display_name,i
 for (let i = 0; i < props.concepts.length; i++) conceptListString += props.concepts[i].id.split("/")[3] + '|';
 conceptListString = conceptListString.slice(0, -1);
 
-const detailedConcepts = ref([])
+const detailedConcepts: any = ref([])
 
 onBeforeMount(async () => {
   const response = await fetch(conceptListString)
   detailedConcepts.value = await response.json()
+  // reverse the order of the concepts so that the most specific concepts are first
+  detailedConcepts.value.results.reverse()
 })
 </script>
 <style lang="scss" scoped>
@@ -30,6 +32,7 @@ onBeforeMount(async () => {
   overflow-x: scroll;
   scrollbar-width: thin;
   scrollbar-color: $nord9 $nord6;
+  overflow-y: hidden;
 }
 </style>
 

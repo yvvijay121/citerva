@@ -9,7 +9,6 @@ const props = defineProps({
     font-size: 0.85em;
   }
   .mxt-0-5{
-    margin-top: 0.25em;
     margin-left: 0.125em;
     margin-right: 0.125em;
   }
@@ -23,7 +22,7 @@ const props = defineProps({
         </p>
         <p class="is-7">
             <span>Publisher: </span>
-            <span class="has-text-weight-semibold">{{ props.host.host_organization }}</span>
+            <span class="has-text-weight-semibold">{{ props.host.host_organization_name }}</span>
         </p>
         <p class="is-7">
             <span>ISSN: </span>
