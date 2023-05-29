@@ -76,7 +76,15 @@ public class DOIController {
             JsonNode articleAbstract = openAlexJson.get("abstract_inverted_index");
             Map<String, List<Integer>> result = objectMapper.convertValue(articleAbstract, new TypeReference<>() {
             });
-            String articleAbstractString = convertInvertedIndexToString(result);
+
+            String articleAbstractString;
+
+            try {
+                articleAbstractString = convertInvertedIndexToString(result);
+            } catch (NullPointerException e) {
+                articleAbstractString = "Sorry! No abstract available.";
+            }
+            
             // Modification 2. Add the open access information to the JSON
             JsonNode unpaywallJson = objectMapper.readTree(unpaywall.body());
             // Modification 3. Add the source information to the JSON
@@ -102,7 +110,7 @@ public class DOIController {
         }
     }
 
-    private static String convertInvertedIndexToString(Map<String, List<Integer>> result) {
+    private static String convertInvertedIndexToString(Map<String, List<Integer>> result) throws NullPointerException{
         TreeMap<Integer, String> map = new TreeMap<>();
         StringBuilder stringBuilder = new StringBuilder();
         for (Map.Entry<String, List<Integer>> entry : result.entrySet()) {
