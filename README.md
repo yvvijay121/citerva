@@ -13,7 +13,7 @@ graph LR
     B[(Unpaywall)] --> |Unpaywall API| D
     C[DOI Content Negotiation] --> D
     subgraph Docker Compose
-        D(Javalin Backend) <--> E(Vue frontend)
+        D(Javalin Backend) --> E(Vue frontend)
     end
 ```
 
