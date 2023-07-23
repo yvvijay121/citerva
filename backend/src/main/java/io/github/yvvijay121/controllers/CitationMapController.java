@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
-import io.github.yvvijay121.models.Edge;
 import io.github.yvvijay121.models.Graph;
 import io.github.yvvijay121.models.Vertex;
 
@@ -45,17 +44,26 @@ public class CitationMapController {
                 })
                 .stream()
                 .map(s -> s.replace("https://openalex.org/", ""))
-                .collect(Collectors.joining("|"));
-        
-        // get the cited articles
+                .collect(Collectors.joining("%7C"));
+
+        String citedArticlesURI = "https://api.openalex.org/works?filter=openalex:" + citedArticlesString
+                + "&per-page=50";
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://openalex.org/api/v1/works?ids=" + citedArticlesString))
+                .uri(new URI(citedArticlesURI))
                 .header("Accept", "application/json")
-                .header("Content-Type", "application/json")
-                .header("User-Agent", EMAIL)
-                .GET()
                 .build();
 
-        ctx.json(citedArticlesString);
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        JsonNode citedArticlesJson = objectMapper.readTree(response.body());
+
+        for(JsonNode articleNode : citedArticlesJson.get("results")){
+            String nodeid = articleNode.get("id").asText().replace("https://openalex.org/", "");
+            String nodetitle = articleNode.get("title").asText();
+            String nodedoi = articleNode.get("doi").asText();
+            Vertex nodevertex = new Vertex(nodeid, nodetitle, nodedoi);
+            graph.addVertex(nodevertex);
+        }
     }
 }
