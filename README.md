@@ -6,7 +6,6 @@ Hello! Citerva is an open-access, open-source bibliometrics application to searc
 
 ## Structure
 
-When completed, the project will consist of two parts:
 ```mermaid
 graph LR
     A[(OpenAlex)] --> |OpenAlex API| E(Vue frontend)
