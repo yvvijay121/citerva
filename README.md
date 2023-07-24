@@ -4,31 +4,11 @@ Hello! Citerva, which isn't finished yet, is an open-access, open-source bibliom
 
 ![image](https://user-images.githubusercontent.com/62124499/193377370-b3330b22-9b10-4040-9c5c-eb2f44a949ba.png)
 
-## Structure
-
-When completed, the project will consist of two parts:
-```mermaid
-graph LR
-    A[(OpenAlex)] --> |OpenAlex API| D
-    B[(Unpaywall)] --> |Unpaywall API| D
-    C[DOI Content Negotiation] --> D
-    subgraph Docker Compose
-        D(Javalin Backend) --> E(Vue frontend)
-    end
-```
-
-At this point, the Javalin backend isn't really necessary; it only does some small data-processing and retrieving open access information from Unpaywall, another open-access data source. It *will* create graph objects for certain visualizations. However, I do see this becoming useful later on, when I would want to incorporate other data sources that may provide information on articles that haven't been logged in the OpenAlex database (DOI content negotiation).
-
 ## Goals & Plans
-- [x] Get the project functional
-  - [x] Get the Javalin backend working (completed, may add more functionality)
-  - [x] Get the Vue frontend working (only template project for now)
-  - [x] Create the Docker Compose file for it to work
 - [x] Create basic UI for Vue frontend
   - [x] Add basic article information
   - [ ] Implement network graph
-  - [ ] Add related sources (get information from Wikipedia)
-- [x] Make everything look fancy!
+  - [x] Add related sources (get information from Wikipedia)
 - [ ] Future Ideas:
   - [ ] Add author information from ORCID (when provided)
       - Can use [ORCID content negotiation](https://github.com/ORCID/ORCID-Source/blob/master/CONTENT_NEGOTIATION.md)
