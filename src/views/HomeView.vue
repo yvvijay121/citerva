@@ -50,7 +50,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const regex = /(10\.[0-9a-zA-Z]+\/(?:(?!["&\'])\S)+)\b/;
+const regex = `(10[.])[0-9]{4}/[()-_.;:/?!@£$%^&*"'><|A-Za-z0-9]+`;
 const articleID = ref('');
 const typeOfID = ref('DOI');
 const router = useRouter();
@@ -61,7 +61,7 @@ function searchRedirect() {
   if (cleanedText === null) {
     validationerror.value = 'Please enter a valid publication identifier.';
   } else {
-    router.push('/info/' + articleID.value);
+    router.push('/info/' + cleanedText[0]);
   }
 }
 </script>

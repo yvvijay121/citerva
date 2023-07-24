@@ -19,17 +19,19 @@ if (route.params.doi) {
     .then(json => {
       articleObject.value = json;
 
-      articleObject.value.abstract = 'No abstract available.';
-      
       let abstract: string[] = [];
 
-      for(let key in articleObject.value.abstract_inverted_index) {
-          for(let num in articleObject.value.abstract_inverted_index[key]){
-              abstract[articleObject.value.abstract_inverted_index[key][num]] = key;
-          }
+      for (let key in articleObject.value.abstract_inverted_index) {
+        for (let num in articleObject.value.abstract_inverted_index[key]) {
+          abstract[articleObject.value.abstract_inverted_index[key][num]] = key;
+        }
       }
 
-      articleObject.value.abstract = abstract.join(' ');
+      if ((abstract.join(' ')).length > 0 && abstract.join(' ')) {
+        articleObject.value.abstract = abstract.join(' ');
+      } else {
+        articleObject.value.abstract = 'No abstract available.';
+      }
 
       loading.value = false;
     });
@@ -133,7 +135,7 @@ const tabSwitch = (tab: string) => {
         <div class="column is-one-quarters-desktop is-one-thirds-tablet">
           <CitationBox :doi="doi" />
           <ArticleButtons :doi="doi" />
-          <JournalPublisherBox :source="articleObject.primary_location.source.id.split('S')[1]" />
+          <JournalPublisherBox :primary_location="articleObject.primary_location" />
         </div>
       </div>
     </div>
