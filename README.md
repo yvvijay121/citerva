@@ -1,4 +1,4 @@
-# frontend
+# Citerva
 
 ## Project setup
 ```
