@@ -1,23 +1,36 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { onBeforeMount, onMounted, ref } from 'vue'
-import CitationBox from '../components/CitationBox.vue'
-import JournalPublisherBox from '../components/JournalPublisherBox.vue'
-import ConceptBox from '../components/ConceptBox.vue'
-import ArticleButtons from '../components/ArticleButtons.vue'
-import Graph from '@/components/Graph.vue'
+import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+import CitationBox from '../components/CitationBox.vue';
+import JournalPublisherBox from '../components/JournalPublisherBox.vue';
+import ConceptBox from '../components/ConceptBox.vue';
+import ArticleButtons from '../components/ArticleButtons.vue';
+import Graph from '@/components/Graph.vue';
 
-let route = useRoute()
-let loading = ref(true)
-const articleObject: any = ref({})
-const currentTab = ref('abstract')
+let route = useRoute();
+let loading = ref(true);
+const articleObject: any = ref({});
+const currentTab = ref('abstract');
 
 const doi = ref((<string[]>route.params.doi).join('/'))
 if (route.params.doi) {
-  fetch(`http://localhost/api/doi/${doi.value}`)
+  fetch(`https://api.openalex.org/works/doi:${doi.value}`)
     .then(res => res.json())
     .then(json => {
       articleObject.value = json;
+
+      articleObject.value.abstract = 'No abstract available.';
+      
+      let abstract: string[] = [];
+
+      for(let key in articleObject.value.abstract_inverted_index) {
+          for(let num in articleObject.value.abstract_inverted_index[key]){
+              abstract[articleObject.value.abstract_inverted_index[key][num]] = key;
+          }
+      }
+
+      articleObject.value.abstract = abstract.join(' ');
+
       loading.value = false;
     });
 }
@@ -71,8 +84,8 @@ const tabSwitch = (tab: string) => {
             <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
             <nav class="breadcrumb has-dot-separator is-size-7 mb-2">
               <ul>
-                <li><a :href="articleObject.link">{{ articleObject.link }}</a></li>
                 <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
+                <li><a :href="articleObject.doi">{{ doi }}</a></li>
               </ul>
             </nav>
             <div class="box is-rounded has-background-light p-3">
@@ -85,7 +98,8 @@ const tabSwitch = (tab: string) => {
                     mt-1
                     is-rounded
                     tag
-                  " v-for="(item, index) in articleObject.authorships" :key="index">{{ item.author.display_name }}</span>
+                  " v-for="(item, index) in articleObject.authorships" :key="index">{{ item.author.display_name
+                  }}</span>
             </div>
           </div>
           <div class="tabs">
@@ -118,8 +132,8 @@ const tabSwitch = (tab: string) => {
         </div>
         <div class="column is-one-quarters-desktop is-one-thirds-tablet">
           <CitationBox :doi="doi" />
-          <ArticleButtons :open_access="articleObject.open_access" />
-          <JournalPublisherBox :host="articleObject.primary_location" />
+          <ArticleButtons :doi="doi" />
+          <JournalPublisherBox :source="articleObject.primary_location.source.id.split('S')[1]" />
         </div>
       </div>
     </div>

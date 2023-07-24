@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, Ref, onBeforeMount } from 'vue'
+import { ref } from 'vue'
 import ConceptObj from '../components/ConceptObj.vue'
 const props = defineProps({
   concepts: { type: Object, required: true }
@@ -11,12 +11,11 @@ conceptListString = conceptListString.slice(0, -1);
 
 const detailedConcepts: any = ref([])
 
-onBeforeMount(async () => {
-  const response = await fetch(conceptListString)
-  detailedConcepts.value = await response.json()
-  // reverse the order of the concepts so that the most specific concepts are first
-  detailedConcepts.value.results.reverse()
-})
+const response = await fetch(conceptListString)
+detailedConcepts.value = await response.json()
+// reverse the order of the concepts so that the most specific concepts are first
+detailedConcepts.value.results.reverse()
+
 </script>
 <style lang="scss" scoped>
 @import "node_modules/nord/src/sass/nord.scss";
