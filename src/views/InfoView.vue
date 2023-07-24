@@ -87,6 +87,7 @@ const tabSwitch = (tab: string) => {
             <nav class="breadcrumb has-dot-separator is-size-7 mb-2">
               <ul>
                 <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
+                <!-- TODO: fix this to use DOI content negotiation(?) and get the actual link -->
                 <li><a :href="articleObject.doi">{{ doi }}</a></li>
               </ul>
             </nav>
@@ -116,7 +117,9 @@ const tabSwitch = (tab: string) => {
             </ul>
           </div>
           <div v-if="currentTab === 'abstract'">
-            <ConceptBox :concepts="articleObject.concepts" />
+            <div class="box">
+              <ConceptBox :concepts="articleObject.concepts" />
+            </div>
             <div class="box">
               <h3 class="title is-3 mb-2">Abstract</h3>
               <p>{{ articleObject.abstract }}</p>

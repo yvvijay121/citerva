@@ -5,18 +5,21 @@ const props = defineProps({
   concepts: { type: Object, required: true }
 })
 
+const detailedConcepts: any = ref({});
+
 var conceptListString = 'https://api.openalex.org/concepts?select=display_name,ids,description,image_url,level,wikidata&filter=openalex:';
 for (let i = 0; i < props.concepts.length; i++) conceptListString += props.concepts[i].id.split("/")[3] + '|';
 conceptListString = conceptListString.slice(0, -1);
 
-const detailedConcepts: any = ref([])
-
-const response = await fetch(conceptListString)
-detailedConcepts.value = await response.json()
-// reverse the order of the concepts so that the most specific concepts are first
-detailedConcepts.value.results.reverse()
-
+fetch(conceptListString)
+  .then(res => res.json())
+  .then(json => {
+    detailedConcepts.value = json;
+    // reverse the order of the concepts so that the most specific concepts are first
+    detailedConcepts.value.results.reverse();
+  });
 </script>
+
 <style lang="scss" scoped>
 @import "node_modules/nord/src/sass/nord.scss";
 
@@ -36,10 +39,8 @@ detailedConcepts.value.results.reverse()
 </style>
 
 <template>
-  <div class="box">
-    <h3 class="title is-3 mb-2">Concepts</h3>
-    <div class="concept-obj-container">
-      <ConceptObj v-for="concept in detailedConcepts.results" :concept="concept" />
-    </div>
+  <h3 class="title is-3 mb-2">Concepts</h3>
+  <div class="concept-obj-container">
+    <ConceptObj v-for="concept in detailedConcepts.results" :concept="concept" />
   </div>
 </template>

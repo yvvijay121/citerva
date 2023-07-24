@@ -8,11 +8,6 @@ const props = defineProps({
 
 const graphObject = ref({});
 
-fetch(`http://localhost/api/graph/${props.doi}`)
-    .then(res => res.json())
-    .then(json => graphObject.value = json);
-
-
 const nodes = {
     node1: { name: "Node 1" },
     node2: { name: "Node 2" },
