@@ -4,11 +4,10 @@ const props = defineProps({
   concept: { type: Object, required: true }
 })
 
-// asynchroneously fetch the description of the concept from wikipedia if it is not already present
 const description = ref(props.concept.description)
 const image_url = ref(props.concept.image_url)
 
-fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wikipedia.split("/")[4]}`)
+if (!description.value || !image_url.value) fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wikipedia.split("/")[4]}`)
   .then(res => res.json())
   .then(json => {
     description.value = json.extract ?? props.concept.description
@@ -16,7 +15,7 @@ fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wik
   }).catch(() => {
     description.value = props.concept.description
     image_url.value = props.concept.image_url
-  })
+  });
 </script>
 <style lang="scss" scoped>
 @import "node_modules/nord/src/sass/nord.scss";
