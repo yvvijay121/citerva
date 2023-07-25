@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { VNetworkGraph } from 'v-network-graph'
-import 'v-network-graph/lib/style.css'
+import { ref } from 'vue';
+import { VNetworkGraph } from 'v-network-graph';
+import 'v-network-graph/lib/style.css';
 const props = defineProps({
     doi: { type: String, required: true }
-})
+});
 
 const graphObject = ref({});
 
@@ -13,13 +13,13 @@ const nodes = {
     node2: { name: "Node 2" },
     node3: { name: "Node 3" },
     node4: { name: "Node 4" },
-}
+};
 
 const edges = {
     edge1: { source: "node1", target: "node2" },
     edge2: { source: "node2", target: "node3" },
     edge3: { source: "node3", target: "node4" },
-}
+};
 </script>
 <style lang="scss" scoped>
 .graph {

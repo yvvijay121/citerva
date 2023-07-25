@@ -13,7 +13,7 @@ let loading = ref(true);
 const articleObject: any = ref({});
 const currentTab = ref('abstract');
 
-const doi = ref((<string[]>route.params.doi).join('/'))
+const doi = ref((<string[]>route.params.doi).join('/'));
 if (route.params.doi) {
   fetch(`https://api.openalex.org/works/doi:${doi.value}`)
     .then(res => res.json())
@@ -40,8 +40,8 @@ if (route.params.doi) {
 
 // create a function called "tabSwitch" that takes in a tab name and sets the current tab to that tab
 const tabSwitch = (tab: string) => {
-  currentTab.value = tab
-}
+  currentTab.value = tab;
+};
 </script>
 <style lang="scss" scoped>
 .modal-background-lighter {

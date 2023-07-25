@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 const props = defineProps({
     doi: { type: String, required: true }
-})
+});
 const open_access: any = ref({});
 
 function capitalizeFirstLetter(str: string) {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import ConceptObj from '../components/ConceptObj.vue'
+import { ref } from 'vue';
+import ConceptObj from '../components/ConceptObj.vue';
 const props = defineProps({
   concepts: { type: Object, required: true }
-})
+});
 
 const detailedConcepts: any = ref({});
 

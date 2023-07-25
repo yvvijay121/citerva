@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 const props = defineProps({
   doi: { type: String, required: true }
-})
+});
 const citation = ref('Loading citation...');
 const citationtype = ref("modern-language-association");
 const loading = ref(true);

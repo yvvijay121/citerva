@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 const props = defineProps({
   concept: { type: Object, required: true }
-})
+});
 
-const description = ref(props.concept.description)
-const image_url = ref(props.concept.image_url)
+const description = ref(props.concept.description);
+const image_url = ref(props.concept.image_url);
 
 if (!description.value || !image_url.value) fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wikipedia.split("/")[4]}`)
   .then(res => res.json())
   .then(json => {
-    description.value = json.extract ?? props.concept.description
-    image_url.value = json.thumbnail?.source ?? json.originalimage?.source ?? props.concept.image_url
+    description.value = json.extract ?? props.concept.description;
+    image_url.value = json.thumbnail?.source ?? json.originalimage?.source ?? props.concept.image_url;
   }).catch(() => {
-    description.value = props.concept.description
-    image_url.value = props.concept.image_url
+    description.value = props.concept.description;
+    image_url.value = props.concept.image_url;
   });
 </script>
 <style lang="scss" scoped>

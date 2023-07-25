@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 const props = defineProps({
   primary_location: { type: Object, required: true }
-})
+});
 const host: any = ref({});
 let not_available: boolean = false;
 
@@ -47,7 +47,8 @@ if (!!props.primary_location.source) {
     </p>
     <p class="is-7">
       <span>Homepage: </span>
-      <span class="has-text-weight-semibold"><a :href="host.homepage_url">{{ host.homepage_url ?? 'Not available.' }}</a></span>
+      <span class="has-text-weight-semibold"><a :href="host.homepage_url">{{ host.homepage_url ?? 'Not available.'
+      }}</a></span>
     </p>
     <div>
       <span class="is-7">Concepts: </span>
