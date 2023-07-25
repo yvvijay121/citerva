@@ -5,6 +5,7 @@ import CitationBox from '../components/CitationBox.vue';
 import JournalPublisherBox from '../components/JournalPublisherBox.vue';
 import ConceptBox from '../components/ConceptBox.vue';
 import ArticleButtons from '../components/ArticleButtons.vue';
+import ArticleLinks from '../components/ArticleLinks.vue';
 import Graph from '@/components/Graph.vue';
 
 let route = useRoute();
@@ -84,13 +85,7 @@ const tabSwitch = (tab: string) => {
         <div class="column is-three-quarters-desktop is-two-thirds-tablet">
           <div class="box">
             <h1 class="title is-2 mb-1">{{ articleObject.title }}</h1>
-            <nav class="breadcrumb has-dot-separator is-size-7 mb-2">
-              <ul>
-                <li><a :href="articleObject.doi">{{ articleObject.doi }}</a></li>
-                <!-- TODO: fix this to use DOI content negotiation(?) and get the actual link -->
-                <li><a :href="articleObject.doi">{{ doi }}</a></li>
-              </ul>
-            </nav>
+            <ArticleLinks :doi="doi" />
             <div class="box is-rounded has-background-light p-3">
               <span class="is-6 title mx-1">Authors:</span>
               <span class="
