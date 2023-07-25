@@ -8,15 +8,15 @@ const props = defineProps({
 const description = ref(props.concept.description)
 const image_url = ref(props.concept.image_url)
 
-
-if (!description.value || !image_url.value) {
-  var conceptName = props.concept.ids.wikipedia.split("/")[4]
-  const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${conceptName}`)
-  const data = await response.json()
-  description.value = data.extract
-  image_url.value = data.thumbnail.source ?? data.originalimage.source
-}
-
+fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wikipedia.split("/")[4]}`)
+  .then(res => res.json())
+  .then(json => {
+    description.value = json.extract ?? props.concept.description
+    image_url.value = json.thumbnail?.source ?? json.originalimage?.source ?? props.concept.image_url
+  }).catch(() => {
+    description.value = props.concept.description
+    image_url.value = props.concept.image_url
+  })
 </script>
 <style lang="scss" scoped>
 @import "node_modules/nord/src/sass/nord.scss";
@@ -35,7 +35,7 @@ if (!description.value || !image_url.value) {
 </style>
 <template>
   <div class="box box-concept"
-    :style="{ backgroundImage: `linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.5)), url(${image_url})` }">
+    :style="{ backgroundImage: `linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.65)), url(${image_url})` }">
     <h6 class="title is-6 mb-1 has-text-white">
       <a :href="`${props.concept.ids.wikipedia}`">
         {{ props.concept.display_name }}
