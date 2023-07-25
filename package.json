@@ -7,8 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@netlify/functions": "^1.6.0",
+    "@types/node": "^14.18.54",
     "bulma": "^0.9.4",
     "core-js": "^3.8.3",
+    "node-fetch": "^3.3.2",
     "nord": "^0.2.1",
     "v-network-graph": "^0.9.1",
     "vue": "^3.2.13",
@@ -21,6 +24,6 @@
     "@vue/cli-service": "~5.0.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
-    "typescript": "~4.5.5"
+    "typescript": "^4.9.5"
   }
 }
