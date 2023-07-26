@@ -2,10 +2,9 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
-// computed
 const currentRoute = computed(() => {
   const router = useRouter();
-  return router.currentRoute.value.name === 'home';
+  return (router.currentRoute.value.name !== 'home');
 });
 </script>
 <style lang="scss">
@@ -22,7 +21,7 @@ const currentRoute = computed(() => {
 }
 </style>
 <template>
-  <nav class="level is-transparent is-white px-5 pt-4 is-mobile" :class="{ hidden: currentRoute }">
+  <nav class="level is-transparent is-white px-5 pt-4 is-mobile" v-if="currentRoute">
     <div class="level-left">
       <router-link to="/" class="level-item"><img id="brandimage" :src="require('./assets/image.svg')" /></router-link>
     </div>

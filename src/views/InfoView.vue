@@ -7,7 +7,6 @@ import ConceptBox from '../components/ConceptBox.vue';
 import ArticleButtons from '../components/ArticleButtons.vue';
 import ArticleLinks from '../components/ArticleLinks.vue';
 import Graph from '@/components/Graph.vue';
-
 let route = useRoute();
 let loading = ref(true);
 const articleObject: any = ref({});
@@ -121,7 +120,7 @@ const tabSwitch = (tab: string) => {
             </div>
           </div>
           <div v-if="currentTab === 'related'">
-            <Graph :doi="doi" />
+            <Graph :openalexID="articleObject.id" />
           </div>
           <div v-if="currentTab === 'citation'">
             <div class="box">

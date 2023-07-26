@@ -11,6 +11,7 @@
     "@types/node": "^14.18.54",
     "bulma": "^0.9.4",
     "core-js": "^3.8.3",
+    "d3-force": "^3.0.0",
     "node-fetch": "^3.3.2",
     "nord": "^0.2.1",
     "v-network-graph": "^0.9.1",
