@@ -90,6 +90,7 @@ async function autocomplete() {
             </router-link>
           </article>
         </Transition>
+        <div class="notification is-danger">The search bar isn't working yet, but the autocomplete features do. Hang tight!</div>
       </div>
     </div>
     <div class="hero-foot surrounding-box">

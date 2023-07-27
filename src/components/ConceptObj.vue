@@ -7,7 +7,7 @@ const props = defineProps({
 const description = ref(props.concept.description);
 const image_url = ref(props.concept.image_url);
 
-if (!description.value || !image_url.value) fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wikipedia.split("/")[4]}`)
+if ((!description.value || !image_url.value) && props.concept.ids.wikipedia) fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${props.concept.ids.wikipedia.split("/")[4]}`)
   .then(res => res.json())
   .then(json => {
     description.value = json.extract ?? props.concept.description;

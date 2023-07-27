@@ -32,9 +32,11 @@ if (route.params.doi) {
       } else {
         articleObject.value.abstract = 'No abstract available.';
       }
-
-      loading.value = false;
     });
+    
+    setTimeout(() => {
+      loading.value = false;
+    }, 750);
 }
 
 // create a function called "tabSwitch" that takes in a tab name and sets the current tab to that tab
@@ -64,6 +66,12 @@ const tabSwitch = (tab: string) => {
 .v-leave-to {
   opacity: 0;
 }
+
+.logo {
+  font-family: 'Bruno Ace SC', sans-serif;
+  font-size: max(2.5em, 4vw);
+  padding: 0 0.25em 0.25em 0.25em;
+}
 </style>
 <template>
   <transition mode="out-in">
@@ -74,7 +82,7 @@ const tabSwitch = (tab: string) => {
         " v-if="loading">
       <div class="hero-body column is-narrow">
         <div class="box has-text-centered">
-          <img class="brandimage" :src="require('../assets/image.svg')" />
+          <h2 class="logo has-text-info">citerva</h2>
           <progress class="progress is-primary" max="100">15%</progress>
         </div>
       </div>
