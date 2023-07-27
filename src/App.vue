@@ -26,7 +26,7 @@ const currentRoute = computed(() => {
 }
 </style>
 <template>
-  <nav class="level is-transparent is-white px-5 pt-4 is-mobile" v-if="currentRoute">
+  <nav class="level is-transparent is-white mx-5 mt-4 is-mobile" v-if="currentRoute">
     <div class="level-left">
       <router-link to="/" class="level-item logo">citerva</router-link>
     </div>
@@ -35,4 +35,17 @@ const currentRoute = computed(() => {
     </div>
   </nav>
   <router-view />
+  <footer class="footer" v-if="currentRoute">
+    <div class="content has-text-centered mb-2">
+      <strong><router-link to="/about">About</router-link></strong> - <strong><a
+          href="https://github.com/yvvijay121/citerva">Github</a></strong>
+    </div>
+    <div class="content has-text-centered">
+      <p>
+        <strong>Citerva</strong> by <a href="https://github.com/yvvijay121">Yash Vijay</a>. The source code is licensed
+        <a href="https://www.mozilla.org/en-US/MPL/2.0/">MPL 2.0</a>. The article data
+        is licensed <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+      </p>
+    </div>
+  </footer>
 </template>

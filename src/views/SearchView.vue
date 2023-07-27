@@ -13,12 +13,25 @@ async function autocomplete() {
       .then((response) => response.json())
       .then((data) => {
         autocompleteObject.value = data.results;
-        showAutocomplete.value = true;
+        showAutocomplete.value = (data.results.length > 0);
       });
   } else {
     autocompleteObject.value = {};
     showAutocomplete.value = false;
   }
+}
+
+function retrieve_doi_of_entry(entry: Record<string, unknown>) {
+  let linktoarticle: string = entry.external_id as string ?? '';
+  if(!entry.external_id){
+    let id: string = entry.id as string;
+    fetch(`https://api.openalex.org/works/${id.split('openalex.org/')[1]}?select=doi`)
+      .then((response) => response.json())
+      .then((data) => {
+        linktoarticle = data.doi as string;
+      });
+  }
+  return '/info/' + linktoarticle.split('doi.org/')[1];
 }
 </script>
 <style lang="scss" scoped>
@@ -82,12 +95,14 @@ async function autocomplete() {
         </div>
         <Transition name="fade">
           <article class="panel is-primary autoCompletePanel" v-if="showAutocomplete">
-            <router-link class="panel-block is-active" v-for="result in (autocompleteObject as Record<string, unknown>[])" :to="'/info/' + (result.external_id as string).split('doi.org/')[1]">
-              <span class="panel-icon pr-5 pl-2">
-                <i class="fas fa-book" aria-hidden="true"></i>
-              </span>
-              <span v-html="result.display_name + ' - ' + result.hint" />
-            </router-link>
+            <div v-for="result in (autocompleteObject as Record<string, unknown>[])">
+              <router-link class="panel-block is-active" :to="retrieve_doi_of_entry(result) as string">
+                <span class="panel-icon pr-5 pl-2">
+                  <i class="fas fa-book" aria-hidden="true"></i>
+                </span>
+                <span v-html="result.display_name + ' - ' + result.hint" />
+              </router-link>
+            </div>
           </article>
         </Transition>
         <div class="notification is-danger">The search bar isn't working yet, but the autocomplete features do. Hang tight!</div>
