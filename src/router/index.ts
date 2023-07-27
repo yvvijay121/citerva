@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: import('../views/HomeView.vue')
+    component: import('../views/SearchView.vue')
   },
   {
     path: '/about',
@@ -15,11 +15,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/info/:doi+',
     name: 'info',
     component: () => import('../views/InfoView.vue')
-  },
-  {
-    path: '/search',
-    name: 'search',
-    component: () => import('../views/SearchView.vue')
   }
 ];
 

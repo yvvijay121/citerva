@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { VNetworkGraph } from 'v-network-graph';
 import 'v-network-graph/lib/style.css';
 const props = defineProps({

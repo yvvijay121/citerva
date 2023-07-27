@@ -7,7 +7,7 @@ const currentRoute = computed(() => {
   return (router.currentRoute.value.name !== 'home');
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .hidden {
   display: none !important;
 }
@@ -19,11 +19,16 @@ const currentRoute = computed(() => {
 .has-text-serif {
   font-family: 'Computer Modern Serif', 'Times New Roman', serif;
 }
+
+.logo {
+  font-family: 'Bruno Ace SC', sans-serif;
+  font-size: 2em;
+}
 </style>
 <template>
   <nav class="level is-transparent is-white px-5 pt-4 is-mobile" v-if="currentRoute">
     <div class="level-left">
-      <router-link to="/" class="level-item"><img id="brandimage" :src="require('./assets/image.svg')" /></router-link>
+      <router-link to="/" class="level-item logo">citerva</router-link>
     </div>
     <div class="level-right">
       <router-link to="/about" class="level-item navbar-item">About</router-link>
