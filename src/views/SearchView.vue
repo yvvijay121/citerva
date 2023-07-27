@@ -82,12 +82,12 @@ async function autocomplete() {
         </div>
         <Transition name="fade">
           <article class="panel is-primary autoCompletePanel" v-if="showAutocomplete">
-            <a class="panel-block is-active" v-for="result in (autocompleteObject as Record<string, unknown>[])">
+            <router-link class="panel-block is-active" v-for="result in (autocompleteObject as Record<string, unknown>[])" :to="'/info/' + (result.external_id as string).split('doi.org/')[1]">
               <span class="panel-icon pr-5 pl-2">
                 <i class="fas fa-book" aria-hidden="true"></i>
               </span>
               <span v-html="result.display_name + ' - ' + result.hint" />
-            </a>
+            </router-link>
           </article>
         </Transition>
       </div>
