@@ -34,12 +34,12 @@ if (route.params.doi) {
       }
     });
     
+    // I want people to see the fancy animation, OK? Leave me alone.
     setTimeout(() => {
       loading.value = false;
     }, 750);
 }
 
-// create a function called "tabSwitch" that takes in a tab name and sets the current tab to that tab
 const tabSwitch = (tab: string) => {
   currentTab.value = tab;
 };
