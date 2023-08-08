@@ -33,6 +33,12 @@ function retrieve_doi_of_entry(entry: Record<string, unknown>) {
   }
   return '/info/' + linktoarticle.split('doi.org/')[1];
 }
+
+function search() {
+  if (searchQuery.value) {
+    router.push(`/results?query=${searchQuery.value}`);
+  }
+}
 </script>
 <style lang="scss" scoped>
 .surrounding-box {
@@ -84,11 +90,11 @@ function retrieve_doi_of_entry(entry: Record<string, unknown>) {
         <h1 class="title logo has-text-info has-text-centered">citerva</h1>
         <div class="field has-addons">
           <p class="control is-expanded">
-            <input class="input" type="text" placeholder="Search for articles ..." @input="autocomplete"
+            <input class="input" type="text" placeholder="Search for articles ..." @input="autocomplete" @keyup.enter="search"
               v-model="searchQuery">
           </p>
           <p class="control">
-            <a class="button is-info">
+            <a class="button is-info" @click="search">
               Search
             </a>
           </p>
