@@ -14,7 +14,7 @@ fetch(`https://api.openalex.org/works?search=${query}`)
 <template>
     <div class="container is-fluid">
         <div class="columns is-mobile is-centered mx-4">
-
+            
         </div>
     </div>
 </template>

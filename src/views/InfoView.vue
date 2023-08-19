@@ -14,7 +14,7 @@ const currentTab = ref('abstract');
 
 const doi = ref((<string[]>route.params.doi).join('/'));
 if (route.params.doi) {
-  fetch(`https://api.openalex.org/works/doi:${doi.value}`)
+  fetch(`/.netlify/functions/article-data-retrival?doi=${route.params.doi}`)
     .then(res => res.json())
     .then(json => {
       articleObject.value = json;
