@@ -111,7 +111,7 @@ function search() {
             </div>
           </article>
         </Transition>
-        <div class="notification is-danger">The search bar isn't working yet, but the autocomplete features do. Hang tight!</div>
+        <div class="notification is-danger">The search results page isn't working yet, but the autocomplete features do. Hang tight!</div>
       </div>
     </div>
     <div class="hero-foot surrounding-box">
