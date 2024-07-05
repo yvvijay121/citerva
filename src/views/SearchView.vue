@@ -6,16 +6,26 @@ const searchQuery = ref('');
 const autocompleteObject = ref({});
 const showAutocomplete = ref(false);
 const router = useRouter();
+let canCallFunction = true;
 
 async function autocomplete() {
-  if (searchQuery.value.length > 3) {
-    fetch(`https://api.openalex.org/autocomplete/works?q=${searchQuery.value}`)
+  if (searchQuery.value.length > 3 && canCallFunction) {
+    fetch(`https://api.openalex.org/autocomplete/works?q=${encodeURIComponent(searchQuery.value)}`)
       .then((response) => response.json())
       .then((data) => {
         autocompleteObject.value = data.results;
         showAutocomplete.value = (data.results.length > 0);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
       });
-  } else {
+
+      canCallFunction = false;
+      setTimeout(() => {
+          canCallFunction = true;
+      }, 250); // limits this function from being called more than once every 250ms to avoid 429 errors
+  } 
+  if (searchQuery.value.length < 3) {
     autocompleteObject.value = {};
     showAutocomplete.value = false;
   }
